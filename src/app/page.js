@@ -1,6 +1,11 @@
 "use client"
 import { Alert } from "flowbite-react"
 
+export const metadata = {
+  title: 'Login',
+  description: 'App surat bpkad'
+}
+
 export default function Home() {
   return (
     <>

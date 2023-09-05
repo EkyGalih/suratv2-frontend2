@@ -2,7 +2,7 @@ import LayoutAdmin from "../layouts/admin/LayoutAdmin";
 
 export const metadata = {
   title: 'Admin | Dashboard',
-  description: 'Dashboard page surat bpkad'
+  description: 'App surat bpkad'
 }
 
 export default function DashboardAdmin() {
