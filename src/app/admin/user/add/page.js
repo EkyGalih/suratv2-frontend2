@@ -1,18 +1,21 @@
 'use client'
+
 import LayoutAdmin from "@/app/layouts/admin/LayoutAdmin";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AddUser() {
     const [pegawai, setPegawai] = useState([]);
 
     const [pegawaiId, setPegawaiId] = useState("");
-    const [nama, setNama] = useState("");
+    const [nama_lengkap, setNama] = useState("");
     const [username, setUsername] = useState("");
     const [nip, setNip] = useState("");
-    const [pass, setPass] = useState("");
+    const [password, setPass] = useState("");
     const [confPass, setConfPass] = useState("");
     const [level, setLevel] = useState("");
+    const router = useRouter();
 
     async function getPegawai() {
         const metaData = {
@@ -42,13 +45,31 @@ export default function AddUser() {
             metaData
         );
         const response = await res.json();
-        console.log(response);
         setPegawaiId(response.id);
         setNip(response.nip);
         setNama(response.name);
         setUsername(response.nip);
         setPass(response.nip);
         setConfPass(response.nip);
+    };
+
+    const saveUser = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await fetch(
+                'http://localhost:5000/admin/users', {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ nama_lengkap, level, pegawaiId, username, password }),
+            });
+            // console.log(res);
+            // router.push("/admin/user");
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
@@ -66,7 +87,7 @@ export default function AddUser() {
                 </h2>
             </div>
 
-            <form>
+            <form onSubmit={saveUser}>
                 <div className='mb-6'>
                     <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Pegawai</label>
                     <select id="countries" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={pegawaiId}>
@@ -80,27 +101,27 @@ export default function AddUser() {
                 </div>
                 <div class="mb-6">
                     <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
-                    <input type="number" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nip} />
+                    <input type="number" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nip} onChange={(e) => setNip(e.target.value)} />
                 </div>
                 <div class="mb-6">
                     <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Pegawai</label>
-                    <input type="text" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nama} />
+                    <input type="text" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nama_lengkap} onchage={(e) => setNama(e.target.value)} />
                 </div>
                 <div class="mb-6">
                     <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                    <input type="text" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={username} />
+                    <input type="text" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={username} onchange={(e) => setUsername(e.target.value)} />
                 </div>
                 <div class="mb-6">
                     <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                    <input type="text" placeholder="****" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={pass} />
+                    <input type="text" placeholder="****" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={password} onchange={(e) => setPass(e.target.value)} />
                 </div>
                 <div class="mb-6">
                     <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Conf Password</label>
-                    <input type="text" placeholder="****" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={pass} />
+                    <input type="text" placeholder="****" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={confPass} onchange={(e) => setConfPass(e.target.value)} />
                 </div>
                 <div className='mb-6'>
                     <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Level</label>
-                    <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={level}>
+                    <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={level} onChange={(e) => setLevel(e.target.value)}>
                         <option value="">Pilih</option>
                         <option value="admin">Administrator</option>
                         <option value="agendaris">Agendaris</option>
