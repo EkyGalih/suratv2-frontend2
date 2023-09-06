@@ -2,7 +2,10 @@ import LayoutAdmin from "../layouts/admin/LayoutAdmin";
 
 export const metadata = {
   title: 'Admin | Dashboard',
-  description: 'App surat bpkad'
+  openGraph: {
+    title: 'Dashboard',
+    description: 'App surat bpkad'
+  }
 }
 
 export default function DashboardAdmin() {

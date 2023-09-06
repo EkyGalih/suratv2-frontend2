@@ -6,8 +6,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const metadata = {
-    title: 'Admin | User',
-    description: 'App surat bpkad'
+    title: 'About',
+    openGraph: {
+        title: 'User'
+    }
 }
 
 export default function User() {

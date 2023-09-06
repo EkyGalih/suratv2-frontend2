@@ -74,7 +74,7 @@ export default function AddUser() {
             }),
         });
         const response = await res.json();
-        if (response.msg == 'User created') {
+        if (response.msg === 'User created') {
             router.push('/admin/user')
         } else {
             setMsg(response.msg);
@@ -101,7 +101,7 @@ export default function AddUser() {
                     <li className="inline-flex items-center">
                         <a href="/admin/user" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
                             <svg className="w-3 h-3 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01" />
+                                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01" />
                             </svg>
                             User
                         </a>
@@ -109,7 +109,7 @@ export default function AddUser() {
                     <li>
                         <div className="flex items-center">
                             <svg className="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                             </svg>
                             <a href="#" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Add User</a>
                         </div>
@@ -126,49 +126,53 @@ export default function AddUser() {
             }
 
             <form onSubmit={saveUser}>
-                <div className='mb-6'>
-                    <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Pegawai</label>
-                    <select id="countries" onChange={handleChange} className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={pegawaiId}>
-                        <option value="">Pilih</option>
-                        {pegawai.map((peg, index) => {
-                            return (
-                                <option key={peg.id} value={peg.id}>{peg.name}</option>
-                            )
-                        })}
-                    </select>
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                    <div className='mb-6'>
+                        <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Pegawai</label>
+                        <select id="countries" onChange={handleChange} className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={pegawaiId}>
+                            <option value="">Pilih</option>
+                            {pegawai.map((peg, index) => {
+                                return (
+                                    <option key={peg.id} value={peg.id}>{peg.name}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                    <div className="mb-6">
+                        <label htmlFor="base-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
+                        <input disabled type="number" id="disabled-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nip} onChange={(e) => setNip(e.target.value)} />
+                        <input type="hidden" id="base-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nama_lengkap} onChange={(e) => setNama(e.target.value)} />
+                    </div>
                 </div>
-                <div className='mb-6'>
-                    <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Level</label>
-                    <select id="countries" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={level} onChange={(e) => setLevel(e.target.value)}>
-                        <option value="">Pilih</option>
-                        <option value="admin">Administrator</option>
-                        <option value="agendaris">Agendaris</option>
-                        <option value="pimpinan">Pimpinan</option>
-                        <option value="user">User</option>
-                    </select>
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                    <div className='mb-6'>
+                        <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Level</label>
+                        <select id="countries" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={level} onChange={(e) => setLevel(e.target.value)}>
+                            <option value="">Pilih</option>
+                            <option value="admin">Administrator</option>
+                            <option value="agendaris">Agendaris</option>
+                            <option value="pimpinan">Pimpinan</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div className="mb-6">
+                        <label htmlFor="base-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                        <input type="text" id="base-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 cursor-not-allowed dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={username} onChange={(e) => setUsername(e.target.value)} disabled />
+                    </div>
                 </div>
-                <div className="mb-6">
-                    <label htmlFor="base-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
-                    <input disabled type="number" id="disabled-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nip} onChange={(e) => setNip(e.target.value)} />
-                </div>
-                <div className="mb-6">
-                    <input type="hidden" id="base-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nama_lengkap} onChange={(e) => setNama(e.target.value)} />
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="base-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                    <input type="text" id="base-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 cursor-not-allowed dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={username} onChange={(e) => setUsername(e.target.value)} disabled />
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="base-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                    <input type="text" placeholder="****" id="base-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white cursor-not-allowed dark:focus:ring-blue-500 dark:focus:border-blue-500" value={password} onChange={(e) => setPass(e.target.value)} disabled />
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="base-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Conf Password</label>
-                    <input type="text" placeholder="****" id="base-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={confPass} onChange={(e) => setConfPass(e.target.value)} disabled />
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                    <div className="mb-6">
+                        <label htmlFor="base-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        <input type="text" placeholder="****" id="base-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white cursor-not-allowed dark:focus:ring-blue-500 dark:focus:border-blue-500" value={password} onChange={(e) => setPass(e.target.value)} disabled />
+                    </div>
+                    <div className="mb-6">
+                        <label htmlFor="base-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Conf Password</label>
+                        <input type="text" placeholder="****" id="base-input" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={confPass} onChange={(e) => setConfPass(e.target.value)} disabled />
+                    </div>
                 </div>
                 <hr className='mb-3' />
                 <div className="flex mb-6">
-                    <button type="button" className="flex focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                    <button type="submit" className="flex focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                         <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                             <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                         </svg>
