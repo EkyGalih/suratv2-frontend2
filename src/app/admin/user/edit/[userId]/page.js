@@ -31,8 +31,7 @@ export default function userId() {
       headers: {
         "Content-type": "application/json"
       },
-    }
-    );
+    });
     const response = await res.json();
     setPegawaiId(response.pegawaiId);
     setNama(response.nama_lengkap);
