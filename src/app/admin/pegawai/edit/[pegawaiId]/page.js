@@ -1,7 +1,7 @@
 'use client'
 import LayoutAdmin from "@/app/layouts/admin/LayoutAdmin";
 import Link from "next/link";
-import { redirect, useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -9,6 +9,7 @@ export default function EditPegawai() {
     const [bidang, setBidang] = useState([]);
     const [pangkat, setPangkat] = useState([]);
     const [golongan, setGolongan] = useState([]);
+    const router = useRouter();
 
     const params = useParams();
     const pegawaiId = params.pegawaiId;
@@ -60,7 +61,6 @@ export default function EditPegawai() {
             },
         });
         const response = await res.json();
-        console.log(response);
         setName(response.name);
         setNip(response.nip);
         setSk(response.no_sk);
@@ -152,11 +152,11 @@ export default function EditPegawai() {
         formData.append("bidangId", bidangId);
 
         try {
-            await axios.post(
-                "http://localhost:5000/admin/pegawai", formData, {
+            await axios.patch(
+                `http://localhost:5000/admin/pegawai/${pegawaiId}`, formData, {
                 "Content-type": "multipart/form-data"
             });
-            redirect('/admin/pegawai');
+            router.push('/admin/pegawai');
         } catch (error) {
             if (error.response) {
                 setMsg(error.response.data.msg);
@@ -244,7 +244,7 @@ export default function EditPegawai() {
                         <label htmlFor="pangkat" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pangkat/Golongan</label>
                         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                             <div className="col-span-1 mb-2">
-                                <select id="pangkat" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={pangkat} onChange={(e) => setPangkatId(e.target.value)}>
+                                <select id="pangkat" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={pangkatId} onChange={(e) => setPangkatId(e.target.value)}>
                                     <option>Pilih</option>
                                     {pangkat && pangkat.map((pang) => {
                                         return (
@@ -254,7 +254,7 @@ export default function EditPegawai() {
                                 </select>
                             </div>
                             <div className="col-span-1 mb-2">
-                                <select id="golongan" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={golongan} onChange={(e) => setGolonganId(e.target.value)}>
+                                <select id="golongan" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={golonganId} onChange={(e) => setGolonganId(e.target.value)}>
                                     <option>Pilih</option>
                                     {golongan && golongan.map((gol) => {
                                         return (
@@ -363,7 +363,7 @@ export default function EditPegawai() {
                         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                             <div className="col-span-1">
                                 <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="foto" type="file" onChange={loadImage} />
-                                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
+                                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG (MAX. 5MB).</p>
                             </div>
                             <div className="col-span-1">
 
@@ -386,7 +386,7 @@ export default function EditPegawai() {
                         <span>Simpan</span>
                     </button>
 
-                    <Link href='/admin/user' className="flex py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    <Link href='/admin/pegawai' className="flex py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                         <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 16">
                             <path d="M10.819.4a1.974 1.974 0 0 0-2.147.33l-6.5 5.773A2.014 2.014 0 0 0 2 6.7V1a1 1 0 0 0-2 0v14a1 1 0 1 0 2 0V9.3c.055.068.114.133.177.194l6.5 5.773a1.982 1.982 0 0 0 2.147.33A1.977 1.977 0 0 0 12 13.773V2.227A1.977 1.977 0 0 0 10.819.4Z" />
                         </svg>
