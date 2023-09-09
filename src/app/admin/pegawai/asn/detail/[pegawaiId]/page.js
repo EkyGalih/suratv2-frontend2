@@ -45,15 +45,15 @@ export default function DetailPegawai() {
             },
         });
         const response = await res.json();
-        console.log(response);
+console.log(response);
         setName(response.name);
         setNip(response.nip);
         setSk(response.no_sk);
         setMkg(response.masa_kerja_golongan);
         setKp(response.kenaikan_pangkat);
-        setNamaBidang(response.bidang.nama_bidang);
-        setPangkat(response.pangkat.nama_pangkat);
-        setGolongan(response.Golongan.nama_golongan);
+        setNamaBidang(response.bidang?.nama_bidang);
+        setPangkat(response.pangkat?.nama_pangkat);
+        setGolongan(response.Golongan?.nama_golongan);
         setTempatlahir(response.tempat_lahir);
         setTglLahir(response.tanggal_lahir);
         setUmur(response.umur);

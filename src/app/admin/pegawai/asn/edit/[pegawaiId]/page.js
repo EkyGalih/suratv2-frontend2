@@ -156,7 +156,7 @@ export default function EditPegawai() {
                 `http://localhost:5000/admin/pegawai/${pegawaiId}`, formData, {
                 "Content-type": "multipart/form-data"
             });
-            router.push('/admin/pegawai');
+            router.push('/admin/pegawai/asn');
         } catch (error) {
             if (error.response) {
                 setMsg(error.response.data.msg);

@@ -121,7 +121,19 @@ export default function User() {
                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.pegawai.name}</th>
                                     <td className="px-6 py-4">{user.nama_lengkap}</td>
                                     <td className="px-6 py-4">{user.username}</td>
-                                    <td className="px-6 py-4">{user.level}</td>
+                                    <td className="px-6 py-4">
+                                        {
+                                            user.level === 'admin'
+                                                ? <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">Admininstrator</span>
+                                                : user.level === 'user'
+                                                    ? <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">User</span>
+                                                    : user.level === 'agendaris'
+                                                        ? <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">Agendaris</span>
+                                                        : user.level === 'pimpinan'
+                                                            ? <span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Pimpinan</span>
+                                                            : <span></span>
+                                        }
+                                    </td>
                                     <td className="px-6 py-4 text-center">
                                         <a href={`/admin/user/edit/${user.id}`} className="inline-flex items-center focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
                                             <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">

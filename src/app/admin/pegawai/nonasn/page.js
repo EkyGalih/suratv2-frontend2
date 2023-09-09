@@ -162,7 +162,7 @@ export default function Pegawai() {
                                 <tr key={peg.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td className="px-6 py-0.5">{index + 1}</td>
                                     <th scope="row" className="px-6 py-0.5 font-medium text-gray-900 whitespace-nowrap dark:text-white">{peg.name}</th>
-                                    <td className="px-6 py-0.5">{peg.nip}</td>
+                                    <td className="px-6 py-0.5">{peg.nip ?? '-'}</td>
                                     <td className="px-6 py-0.5">{peg.jenis_pegawai}</td>
                                     <td className="px-6 py-0.5">{peg.jabatan}</td>
                                     <td className="px-6 py-0.5">{peg.bidang == null ? '-' : peg.bidang.nama_bidang}</td>
@@ -174,8 +174,8 @@ export default function Pegawai() {
                                                     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
                                                 </svg> Edit
                                             </a>
-                                            <a href={`/admin/pegawai/nonasn/detail/${peg.id}`} class="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                                <svg class="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                                            <a href={`/admin/pegawai/nonasn/detail/${peg.id}`} className="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
                                                     <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                                                         <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                                                         <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />

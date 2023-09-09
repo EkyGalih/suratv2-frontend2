@@ -59,11 +59,11 @@ export default function Pegawai() {
     // fungsi ganti halaman
     const changePage = ({ selected }) => {
         setPage(selected);
-        if (selected === 9) {
-            setMsgPage("Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!");
-        } else {
-            setMsgPage("");
-        }
+        // if (selected === 9) {
+        //     setMsgPage("Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!");
+        // } else {
+        //     setMsgPage("");
+        // }
     };
 
     const searchPegawai = (e) => {
@@ -133,20 +133,10 @@ export default function Pegawai() {
                                 NIP
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                <div className="flex items-center">
-                                    Jabatan
-                                    <a href="#"><svg className="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                                    </svg></a>
-                                </div>
+                                Jabatan
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                <div className="flex items-center">
-                                    Bidang
-                                    <a href="#"><svg className="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                                    </svg></a>
-                                </div>
+                                Bidang
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 <span className="sr-only">Edit</span>
@@ -160,7 +150,19 @@ export default function Pegawai() {
                                     <td className="px-6 py-0.5">{index + 1}</td>
                                     <th scope="row" className="px-6 py-0.5 font-medium text-gray-900 whitespace-nowrap dark:text-white">{peg.name}</th>
                                     <td className="px-6 py-0.5">{peg.nip}</td>
-                                    <td className="px-6 py-0.5">{peg.jabatan}</td>
+                                    <td className="px-6 py-0.5">
+                                        {
+                                            peg.nama_jabatan === 'kaban'
+                                                ? <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">Kepala Badan</span>
+                                                : peg.nama_jabatan === 'kabag'
+                                                    ? <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">Kepala Bagian</span>
+                                                    : peg.nama_jabatan === 'sekban'
+                                                        ? <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">Sekertaris Badan</span>
+                                                        : peg.nama_jabatan === 'kasubag'
+                                                            ? <span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Kepala Sub Bagian</span>
+                                                            : <span>Pegawai</span>
+                                        }
+                                    </td>
                                     <td className="px-6 py-0.5">{peg.bidang == null ? '-' : peg.bidang.nama_bidang}</td>
                                     <td className="px-6 py-0.5 text-center">
                                         <div className="flex">

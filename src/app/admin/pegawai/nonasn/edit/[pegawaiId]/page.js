@@ -14,7 +14,7 @@ export default function EditPegawai() {
     const params = useParams();
     const pegawaiId = params.pegawaiId;
 
-    const [nip, setNip] = useState("");
+    const [nip, setNip] = useState(0);
     const [name, setName] = useState("");
     const [jenis_pegawai, setJenisPegawai] = useState("");
     const [tempat_lahir, setTempatlahir] = useState("");
@@ -101,8 +101,6 @@ export default function EditPegawai() {
         formData.append("nama_jabatan", jabatan);
         formData.append("jabatan", nama_jabatan);
         formData.append("initial_jabatan", jabatan);
-        formData.append("masa_kerja_golongan", mkg);
-        formData.append("diklat", diklat);
         formData.append("pendidikan", pendidikan);
         formData.append("no_sk", sk);
         formData.append("no_rekening", rekening);
@@ -111,10 +109,6 @@ export default function EditPegawai() {
         formData.append("jenis_kelamin", jk);
         formData.append("agama", agama);
         formData.append("foto", foto);
-        formData.append("kenaikan_pangkat", kp);
-        formData.append("batas_pensiun", pensiun);
-        formData.append("pangkatId", pangkatId);
-        formData.append("golonganId", golonganId);
         formData.append("bidangId", bidangId);
 
         try {
@@ -122,7 +116,7 @@ export default function EditPegawai() {
                 `http://localhost:5000/admin/pegawai/${pegawaiId}`, formData, {
                 "Content-type": "multipart/form-data"
             });
-            router.push('/admin/pegawai');
+            router.push('/admin/pegawai/nonasn');
         } catch (error) {
             if (error.response) {
                 setMsg(error.response.data.msg);
@@ -232,10 +226,10 @@ export default function EditPegawai() {
                         <label htmlFor="agama" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agama <sup className="text-red-500">*</sup></label>
                         <select id="agama" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={agama} onChange={(e) => setAgama(e.target.value)}>
                             <option>Pilih</option>
-                            <option value="Islam">Islam</option>
-                            <option value="Kristen">Kristen</option>
-                            <option value="Hindu">Hindu</option>
-                            <option value="Budha">Budha</option>
+                            <option value="islam">Islam</option>
+                            <option value="kristen">Kristen</option>
+                            <option value="hindu">Hindu</option>
+                            <option value="budha">Budha</option>
                         </select>
                     </div>
                 </div>
@@ -292,7 +286,7 @@ export default function EditPegawai() {
                             <div className="col-span-1">
 
                                 {preview ? (
-                                    <img className="h-auto max-w-lg rounded-lg" src={preview} alt="image description" />
+                                    <img className="h-52 ml-20 max-w-lg rounded-lg" src={preview} alt="image description" />
                                 ) : (
                                     ""
                                 )}
