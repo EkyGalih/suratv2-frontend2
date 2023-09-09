@@ -4,6 +4,8 @@ import LayoutAdmin from "@/app/layouts/admin/LayoutAdmin";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import ReactPaginate from "react-paginate";
 
 export const metadata = {
     title: 'BPKAD',
@@ -15,20 +17,25 @@ export const metadata = {
 export default function Pegawai() {
     const router = useRouter();
     const [pegawai, setPegawai] = useState(null);
+    const [page, setPage] = useState(0);
+    const limit = useState(10);
+    const [pages, setPages] = useState(0);
+    const [rows, setRows] = useState(0);
+    const [keyword, setKeyword] = useState("");
+    const [query, setQuery] = useState("");
+    const [msgPage, setMsgPage] = useState("");
     const [msg, setMsg] = useState("");
     const [status, setStatus] = useState("");
 
     async function getPegawai() {
-        const res = await fetch(
-            `http://localhost:5000/admin/pegawais`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json"
-            },
-        }
+        const res = await axios.get(
+            `http://localhost:5000/admin/pegawai?search_query=${keyword}&page=${page}&limit=${limit}`
         );
-        const response = await res.json();
-        setPegawai(response);
+        console.log(res.data);
+        setPegawai(res.data.result);
+        setPage(res.data.page);
+        setPages(res.data.totalPage);
+        setRows(res.data.totalRows);
     };
 
     async function deletePegawai(pegawaiId) {
@@ -50,10 +57,25 @@ export default function Pegawai() {
         }
     }
 
+    // fungsi ganti halaman
+    const changePage = ({ selected }) => {
+        setPage(selected);
+        if (selected === 9) {
+            setMsgPage("Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!");
+        } else {
+            setMsgPage("");
+        }
+    };
+
+    const searchPegawai = (e) => {
+        e.preventDefault();
+        setPage(0);
+        setKeyword(query);
+    }
 
     useEffect(() => {
         getPegawai();
-    }, []);
+    }, [page, keyword]);
 
     return (
         <LayoutAdmin>
@@ -72,6 +94,20 @@ export default function Pegawai() {
                 </Link>
             </div>
 
+            <form className="mb-5" onSubmit={searchPegawai}>
+                <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </div>
+                    <input type="search" id="default-search" className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cari Pegawai..." value={query} onChange={(e) => setQuery(e.target.value)} />
+                    <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                </div>
+            </form>
+
+
             {/* ERROR MESSAGE */}
             {msg === "" ? '' :
                 <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
@@ -80,6 +116,13 @@ export default function Pegawai() {
             }
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                <div className="flex flex-col mt-5 mb-5">
+                    <span className="text-sm text-gray-700 dark:text-gray-400">
+                        Total Pegawai <span className="font-semibold text-gray-900 dark:text-white">{rows}, </span> Halaman <span className="font-semibold text-gray-900 dark:text-white">{rows ? page + 1 : 0}</span> of <span className="font-semibold text-gray-900 dark:text-white">{pages}</span> Halaman
+                    </span>
+                </div>
+
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -117,12 +160,12 @@ export default function Pegawai() {
                         {pegawai && pegawai.map((peg, index) => {
                             return (
                                 <tr key={peg.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td className="px-6 py-4">{index + 1}</td>
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{peg.name}</th>
-                                    <td className="px-6 py-4">{peg.nip}</td>
-                                    <td className="px-6 py-4">{peg.jabatan}</td>
-                                    <td className="px-6 py-4">{peg.bidang == null ? '-' : peg.bidang.nama_bidang}</td>
-                                    <td className="px-6 py-4 text-center">
+                                    <td className="px-6 py-0.5">{index + 1}</td>
+                                    <th scope="row" className="px-6 py-0.5 font-medium text-gray-900 whitespace-nowrap dark:text-white">{peg.name}</th>
+                                    <td className="px-6 py-0.5">{peg.nip}</td>
+                                    <td className="px-6 py-0.5">{peg.jabatan}</td>
+                                    <td className="px-6 py-0.5">{peg.bidang == null ? '-' : peg.bidang.nama_bidang}</td>
+                                    <td className="px-6 py-0.5 text-center">
                                         <div className="flex">
                                             <a href={`/admin/pegawai/edit/${peg.id}`} className="inline-flex items-center focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
                                                 <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -151,6 +194,23 @@ export default function Pegawai() {
                         })}
                     </tbody>
                 </table>
+                <div class="flex flex-col items-center mb-2.5">
+                    <p className='ext-sm text-red-800 mt-2.5 mb-2.5 dark:bg-gray-800 dark:text-red-400'>{msgPage}</p>
+                    <nav aria-label="Page navigation" key={rows}>
+                        <ReactPaginate
+                            previousLabel={"< Prev"}
+                            nextLabel={"Next >"}
+                            pageCount={Math.min(10, pages)}
+                            onPageChange={changePage}
+                            containerClassName={"flex items-center -space-x-px h-8 text-sm"}
+                            pageLinkClassName={"flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
+                            previousLinkClassName={"flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
+                            nextLinkClassName={"flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
+                            activeLinkClassName={"aria-current page"}
+                            disabledLinkClassName={""}
+                        ></ReactPaginate>
+                    </nav>
+                </div>
             </div>
         </LayoutAdmin>
     )
