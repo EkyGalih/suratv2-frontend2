@@ -1,5 +1,6 @@
 "use client"
 import { Alert } from "flowbite-react"
+import { useState } from "react"
 
 export const metadata = {
   title: 'Login',
@@ -7,6 +8,9 @@ export const metadata = {
 }
 
 export default function Home() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <>
 
