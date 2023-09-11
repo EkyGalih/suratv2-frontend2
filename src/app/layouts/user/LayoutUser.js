@@ -1,8 +1,22 @@
+'use client'
+
+import { useRouter } from "next/navigation";
 import FooterUser from "./FooterUser";
 import NavbarUser from "./NavbarUser";
 import SidebarUser from "./SidebarUser";
+import { useEffect } from "react";
 
 export default function LayoutUser({ children }) {
+    const router = useRouter();
+
+    useEffect(() => {
+        const level = localStorage.getItem('level');
+        if (level === null) {
+            router.push('/');
+        } else if (level !== 'user') {
+            router.back();
+        }
+    }, []);
     return (
         <>
             <NavbarUser />

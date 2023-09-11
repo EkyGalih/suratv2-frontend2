@@ -38,6 +38,7 @@ export default function EditPegawai() {
     useEffect(() => {
         getData();
         getPegawaiById();
+        console.log(preview);
     }, [preview, msg]);
 
     // load image preview
@@ -109,6 +110,7 @@ export default function EditPegawai() {
         formData.append("jenis_kelamin", jk);
         formData.append("agama", agama);
         formData.append("foto", foto);
+        formData.append("url", preview);
         formData.append("bidangId", bidangId);
 
         try {

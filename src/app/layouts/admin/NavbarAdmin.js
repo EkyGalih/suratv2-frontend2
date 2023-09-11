@@ -1,4 +1,37 @@
+'use client'
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export default function NavbarAdmin() {
+  const [foto, setFoto] = useState("");
+  const [name, setName] = useState("");
+  const [level, setLevel] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    setFoto(localStorage.getItem('foto'));
+    setLevel(localStorage.getItem('level'));
+    setName(localStorage.getItem('name'));
+  }, []);
+
+  const Logout = async (e) => {
+    const res = await fetch(
+      'http://localhost:5000/logout', {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json"
+      },
+    });
+
+    const response = await res.json();
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('level');
+    localStorage.removeItem('foto');
+    router.push('/');
+  }
   return (
     <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -20,30 +53,27 @@ export default function NavbarAdmin() {
               <div>
                 <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                   <span className="sr-only">Open user menu</span>
-                  <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
+                  <img className="w-8 h-8 rounded-full" src={foto} alt="user photo" />
                 </button>
               </div>
-              <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+              <div className="z-50 hidden my-4 mr-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
                 <div className="px-4 py-3" role="none">
                   <p className="text-sm text-gray-900 dark:text-white" role="none">
-                    Neil Sims
+                    {level}
                   </p>
                   <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                    neil.sims@flowbite.com
+                    {name}
                   </p>
                 </div>
                 <ul className="py-1" role="none">
                   <li>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
+                    <a href="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
                   </li>
                   <li>
                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
                   </li>
                   <li>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                    <Link onClick={Logout} href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</Link>
                   </li>
                 </ul>
               </div>

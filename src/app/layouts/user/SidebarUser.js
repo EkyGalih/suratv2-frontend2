@@ -1,6 +1,50 @@
+'use client'
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export default function SidebarUser() {
+    const [foto, setFoto] = useState("");
+    const [name, setName] = useState("");
+    const [level, setLevel] = useState("");
+    const router = useRouter();
+
+    useEffect(() => {
+        setFoto(localStorage.getItem('foto'));
+        setName(localStorage.getItem('name'));
+        setLevel(localStorage.getItem('level'));
+    }, []);
+
+    const Logout = async (e) => {
+        const res = await fetch(
+            'http://localhost:5000/logout', {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json"
+            },
+        });
+
+        const response = await res.json();
+        localStorage.removeItem('userId');
+        localStorage.removeItem('username');
+        localStorage.removeItem('name');
+        localStorage.removeItem('level');
+        localStorage.removeItem('foto');
+        router.push('/');
+    };
+
     return (
         <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+
+            <div className="inline-flex">
+                <img className="h-20 ml-3 mb-10 w-24 rounded-full shadow-xl dark:shadow-gray-800" src={foto} alt="Profile" />
+                <div className="col-span-2 ml-2">
+                    <h1 className="text-lg font-extrabold mb-0.5">{name}</h1>
+                    <span className="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 uppercase">{level}</span>
+                </div>
+            </div>
+            <hr />
             <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                 <ul className="space-y-2 font-medium">
                     <li>
@@ -76,12 +120,12 @@ export default function SidebarUser() {
                         </ul>
                     </li>
                     <li>
-                        <a href="#" className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                        <Link href="#" onClick={Logout} className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                             <svg className="flex-shrink-0 w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
                             </svg>
                             <span className="ml-4">Logout</span>
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>
