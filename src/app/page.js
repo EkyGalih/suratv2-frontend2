@@ -14,8 +14,10 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (localStorage.getItem('userId') !== null) {
+    if (sessionStorage.getItem('userId') !== null) {
       router.back();
+    } else {
+      router.push('/');
     }
   }, []);
 
@@ -37,12 +39,12 @@ export default function Home() {
     if (response.status === 404 || response.status === 400) {
       setMsg(response.msg);
     } else if (response.status === 200) {
-      localStorage.setItem('userId', response.id);
-      localStorage.setItem('username', response.username);
-      localStorage.setItem('name', response.nama_lengkap);
-      localStorage.setItem('level', response.level);
+      sessionStorage.setItem('userId', response.id);
+      sessionStorage.setItem('username', response.username);
+      sessionStorage.setItem('name', response.nama_lengkap);
+      sessionStorage.setItem('level', response.level);
 
-      const userId = localStorage.getItem('userId');
+      const userId = sessionStorage.getItem('userId');
       const peg = await fetch(
         `http://localhost:5000/me/${userId}`, {
         method: "GET",
@@ -52,13 +54,13 @@ export default function Home() {
       });
       const pegawai = await peg.json();
 
-      localStorage.setItem('foto', pegawai.pegawai.url);
-      const level = localStorage.getItem('level');
+      sessionStorage.setItem('foto', pegawai.pegawai.url);
+      const level = sessionStorage.getItem('level');
 
       if (level === 'admin') {
         router.push('/admin');
       } else if (level == 'user') {
-        localStorage.setItem('bidangId', pegawai.pegawai.bidangId);
+        sessionStorage.setItem('bidangId', pegawai.pegawai.bidangId);
         router.push('/user');
       } else if (level == 'pimpinan') {
         router.push('/pimpinan');

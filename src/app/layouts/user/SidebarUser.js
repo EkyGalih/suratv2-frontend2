@@ -11,9 +11,9 @@ export default function SidebarUser() {
     const router = useRouter();
 
     useEffect(() => {
-        setFoto(localStorage.getItem('foto'));
-        setName(localStorage.getItem('name'));
-        setLevel(localStorage.getItem('level'));
+        setFoto(sessionStorage.getItem('foto'));
+        setName(sessionStorage.getItem('name'));
+        setLevel(sessionStorage.getItem('level'));
     }, []);
 
     const Logout = async (e) => {
@@ -26,11 +26,11 @@ export default function SidebarUser() {
         });
 
         const response = await res.json();
-        localStorage.removeItem('userId');
-        localStorage.removeItem('username');
-        localStorage.removeItem('name');
-        localStorage.removeItem('level');
-        localStorage.removeItem('foto');
+        sessionStorage.removeItem('userId');
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('name');
+        sessionStorage.removeItem('level');
+        sessionStorage.removeItem('foto');
         router.push('/');
     };
 

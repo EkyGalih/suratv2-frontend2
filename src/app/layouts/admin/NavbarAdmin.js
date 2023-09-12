@@ -11,9 +11,9 @@ export default function NavbarAdmin() {
   const router = useRouter();
 
   useEffect(() => {
-    setFoto(localStorage.getItem('foto'));
-    setLevel(localStorage.getItem('level'));
-    setName(localStorage.getItem('name'));
+    setFoto(sessionStorage.getItem('foto'));
+    setLevel(sessionStorage.getItem('level'));
+    setName(sessionStorage.getItem('name'));
   }, []);
 
   const Logout = async (e) => {
@@ -26,10 +26,10 @@ export default function NavbarAdmin() {
     });
 
     const response = await res.json();
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-    localStorage.removeItem('level');
-    localStorage.removeItem('foto');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('level');
+    sessionStorage.removeItem('foto');
     router.push('/');
   }
   return (

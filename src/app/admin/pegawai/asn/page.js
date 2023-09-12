@@ -44,10 +44,9 @@ export default function Pegawai() {
             headers: {
                 "Content-type": "application/json"
             },
-        }
-        );
+        });
         const hapus = await del.json();
-        console.log(router);
+        
         if (hapus.status == 'ok') {
             setMsg(hapus.msg);
             router.replace('/admin/user');

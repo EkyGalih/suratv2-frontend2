@@ -5,17 +5,18 @@ import FooterAdmin from "./FooterAdmin";
 import NavbarAdmin from "./NavbarAdmin";
 import SidebarAdmin from "./SidebarAdmin";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function LayoutAdmin({ children }) {
     const router = useRouter();
 
     useEffect(() => {
-        const level = localStorage.getItem('level');
-        if (level === null) {
-            router.push('/');
-        } else if (level !== 'admin') {
-            router.back();
-        }
+        const userId = sessionStorage.getItem('userId');
+        // if (level === null) {
+        //     router.push('/');
+        // } else if (level !== 'admin') {
+        //     router.back();
+        // }
     }, []);
 
     return (

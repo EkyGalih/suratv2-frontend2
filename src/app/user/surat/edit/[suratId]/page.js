@@ -2,10 +2,13 @@
 
 import LayoutUser from "@/app/layouts/user/LayoutUser";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AddSuratUser() {
+    const params = useParams();
+    const suratId = params.suratId;
+    
     const [file, setFile] = useState("");
     const [perihal, setPerihal] = useState("");
     const [kategori, setKategori] = useState("");
@@ -17,20 +20,31 @@ export default function AddSuratUser() {
     const [msg, setMsg] = useState("");
     const router = useRouter();
 
+    useEffect(() => {
+        getBidangById();
+        getSuratById();
+    }, []);
+
+    async function getSuratById() {
+        const res = await axios.get(
+            `http://localhost:5000/user/surats/${suratId}`
+        );
+        setFile(res.data.file);
+        setPerihal(res.data.surat.perihal);
+        setKategori(res.data.surat.kategori);
+        setBidangId(res.data.surat.bidangId);
+        setAsalSurat(res.data.surat.asal_surat);
+        setTglSurat(res.data.surat.tgl_surat);
+        setTglTerima(res.data.surat.tgl_terima);
+        setPreview(res.data.path_file);
+        
+    }
+
     const loadImage = (e) => {
         const image = e.target.files[0];
         setFile(image);
         setPreview(URL.createObjectURL(image));
-    }
-
-    useEffect(() => {
-        getBidangById();
-        let newDate = new Date();
-        let date = newDate.getDate();
-        let month = newDate.getMonth() + 1;
-        let year = newDate.getFullYear();
-        setTglTerima(year+'-0'+month+'-'+date);
-    }, []);
+    };
 
     async function getBidangById() {
         const bidId = localStorage.getItem('bidangId');
@@ -57,8 +71,8 @@ export default function AddSuratUser() {
         formData.append("status_surat", 'proggress');
 
         try {
-            await axios.post(
-                "http://localhost:5000/user/surat", formData, {
+            await axios.patch(
+                `http://localhost:5000/user/surat/${suratId}`, formData, {
                 "Content-type": "multipart/form-data"
             });
             router.push('/user/surat');

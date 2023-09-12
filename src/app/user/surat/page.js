@@ -49,6 +49,23 @@ export default function Surat() {
         setKeyword(query);
     };
 
+    async function deleteSurat(suratId) {
+        const del = await fetch(
+            `http://localhost:5000/user/surat/${suratId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json"
+            },
+        });
+        const trash = await del.json();
+        if (trash.status === 'ok') {
+            setMsg(trash.msg);
+            router.replace('/user/surat');
+        } else if (trash.status === 'fail') {
+            setMsg(trash.msg);
+        }
+    }
+
     return (
         <LayoutUser>
             <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
@@ -87,6 +104,13 @@ export default function Surat() {
                     </form>
                 </div>
 
+                {/* ERROR MESSAGE */}
+                {msg === "" ? '' :
+                    <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <span className="font-medium">Error!</span> {msg}
+                    </div>
+                }
+
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -95,6 +119,9 @@ export default function Surat() {
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Pemohon
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Kategori Surat
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Tanggal Pengajuan
@@ -114,40 +141,51 @@ export default function Surat() {
                         </tr>
                     </thead>
                     <tbody>
-                        {surat && surat.map((item, index) => {
-                            return (
-                                <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td className="px-6 py-4">{index + 1}</td>
-                                    <td className="px-6 py-4">{item.bidang.nama_bidang}</td>
-                                    <td className="px-6 py-4">{item.tgl_surat}</td>
-                                    <td className="px-6 py-4">{item.perihal}</td>
-                                    <td className="px-6 py-4">{item.no_surat}</td>
-                                    <td className="px-6 py-4">{item.status_surat}</td>
-                                    <td className="px-6 py-4 text-center">
-                                        <a href={`/user/surat/edit/${item.id}`} className="inline-flex items-center focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
-                                            <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                                                <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
-                                                <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
-                                            </svg> Edit
-                                        </a>
-                                        <a href={`/user/surat/detail/${item.id}`} className="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-                                                <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-                                                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
-                                                </g>
-                                            </svg> View
-                                        </a>
-                                        <button onClick={() => deleteSurat(item.id)} type="button" className="button inline-flex items-center focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                                            <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                                                <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z" />
-                                            </svg>
-                                            <span>Hapus</span>
-                                        </button>
-                                    </td>
+                        {
+                            rows === 0
+                                ? <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="items-end">Tidak Ada Data</td>
                                 </tr>
-                            )
-                        })}
+                                :
+                                surat && surat.map((item, index) => {
+                                    return (
+                                        <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td className="px-6 py-4">{index + 1}</td>
+                                            <td className="px-6 py-4">{item.bidang.nama_bidang}</td>
+                                            <td className="px-6 py-4">{item.kategori}</td>
+                                            <td className="px-6 py-4">{item.tgl_surat}</td>
+                                            <td className="px-6 py-4">{item.perihal}</td>
+                                            <td className="px-6 py-4">{item.no_surat}</td>
+                                            <td className="px-6 py-4">{item.status_surat}</td>
+                                            <td className="px-6 py-4 text-center">
+                                                <a href={`/user/surat/edit/${item.id}`} className="inline-flex items-center focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
+                                                    <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
+                                                        <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
+                                                    </svg> Edit
+                                                </a>
+                                                <a href={`/user/surat/detail/${item.id}`} className="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                    <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                                                        <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                                                            <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                            <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                                                        </g>
+                                                    </svg> View
+                                                </a>
+                                                <button onClick={() => deleteSurat(item.id)} type="button" className="button inline-flex items-center focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                                    <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                                        <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z" />
+                                                    </svg>
+                                                    <span>Hapus</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                        }
                     </tbody>
                 </table>
                 <div class="flex flex-col items-center mb-2.5">

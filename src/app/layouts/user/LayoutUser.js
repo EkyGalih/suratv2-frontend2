@@ -10,7 +10,7 @@ export default function LayoutUser({ children }) {
     const router = useRouter();
 
     useEffect(() => {
-        const level = localStorage.getItem('level');
+        const level = sessionStorage.getItem('level');
         if (level === null) {
             router.push('/');
         } else if (level !== 'user') {
