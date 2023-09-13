@@ -1,4 +1,5 @@
 "use client"
+import { LoginUser } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 
@@ -21,7 +22,7 @@ export default function Home() {
     }
   }, []);
 
-  const login = async (e) => {
+const login = async (e) => {
     e.preventDefault();
 
     const res = await fetch(
