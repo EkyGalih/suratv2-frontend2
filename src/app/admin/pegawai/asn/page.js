@@ -58,11 +58,11 @@ export default function Pegawai() {
     // fungsi ganti halaman
     const changePage = ({ selected }) => {
         setPage(selected);
-        // if (selected === 9) {
-        //     setMsgPage("Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!");
-        // } else {
-        //     setMsgPage("");
-        // }
+        if (selected === 9) {
+            setMsgPage("Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!");
+        } else {
+            setMsgPage("");
+        }
     };
 
     const searchPegawai = (e) => {
