@@ -72,7 +72,7 @@ export default function Home() {
           pegawai && pegawai.map((peg, index) => {
             return (
               <div key={peg.id} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
+                <a href={`/pegawai/asn/detail/${peg.id}`}>
                   <img className="rounded-t-lg" src={peg.url} alt="product image" />
                 </a>
                 <div className="px-5 pb-5">
