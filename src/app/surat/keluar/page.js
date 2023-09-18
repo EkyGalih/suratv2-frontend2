@@ -1,7 +1,7 @@
 'use client'
 
 import ReactPaginate from "react-paginate";
-import Layout from "../layouts/Layout";
+import Layout from "../../layouts/Layout";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -24,7 +24,7 @@ export default function Surat() {
 
     async function getSurat() {
         const res = await axios.get(
-            `http://localhost:5000/user/surat?&search_query=${keyword}&page=${page}&limit=${limit}`
+            `http://localhost:5000/user/surat/keluar?&search_query=${keyword}&page=${page}&limit=${limit}`
         );
         setSurat(res.data.result);
         setPage(res.data.page);
@@ -51,7 +51,18 @@ export default function Surat() {
     return (
         <Layout>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg ml-10 mr-10 mt-5">
-
+                <h1 className="inline-flex text-2xl px-5 pt-5 font-extrabold text-black">
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2" />
+                    </svg>
+                    <sup>
+                        <svg className="w-4 h-4 mt-1.5 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
+                        </svg>
+                    </sup>
+                    Daftar Surat Keluar
+                </h1>
+                <hr className="mb-2" />
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <span className="text-sm text-gray-700 dark:text-gray-400 mt-7 ml-4">
                         Total Surat <span className="font-semibold text-gray-900 dark:text-white">{rows}, </span> Halaman <span className="font-semibold text-gray-900 dark:text-white">{rows ? page + 1 : 0}</span> of <span className="font-semibold text-gray-900 dark:text-white">{pages}</span> Halaman
@@ -64,7 +75,7 @@ export default function Surat() {
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
                             </div>
-                            <input type="search" id="default-search" className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cari Surat..." value={query} onChange={(e) => setQuery(e.target.value)} />
+                            <input type="search" id="default-search" className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cari Surat Keluar..." value={query} onChange={(e) => setQuery(e.target.value)} />
                             <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                         </div>
                     </form>
@@ -126,7 +137,7 @@ export default function Surat() {
                                             <td className="px-6 py-4">{item.perihal}</td>
                                             <td className="px-6 py-4">{
                                                 item.no_surat === null ?
-                                                    <span class="text-yellow-800 bg-yellow-50 text-sm dark:bg-gray-800 dark:text-yellow-300 p-1 font-medium">Belum Diberikan</span>
+                                                    <span className="text-yellow-800 bg-yellow-50 text-sm dark:bg-gray-800 dark:text-yellow-300 p-1 font-medium">Belum Diberikan</span>
                                                     : item.no_surat
                                             }</td>
                                             <td className="px-6 py-4">{item.status_surat}</td>
