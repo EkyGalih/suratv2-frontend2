@@ -43,7 +43,7 @@ export default function EditPegawai() {
     useEffect(() => {
         getData();
         getPegawaiById();
-    }, [preview, msg]);
+    }, [msg]);
 
     // load image preview
     const loadImage = (e) => {

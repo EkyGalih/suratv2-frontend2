@@ -47,7 +47,6 @@ export default function Pegawai() {
         }
         );
         const hapus = await del.json();
-        console.log(router);
         if (hapus.status == 'ok') {
             setMsg(hapus.msg);
             router.replace('/admin/user');
@@ -130,7 +129,7 @@ export default function Pegawai() {
                                 Nama Lengkap
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                NIP
+                                NIK
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Jenis Pegawai

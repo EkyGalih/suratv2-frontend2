@@ -38,14 +38,13 @@ export default function EditPegawai() {
     useEffect(() => {
         getData();
         getPegawaiById();
-        console.log(preview);
-    }, [preview, msg]);
-
-    // load image preview
-    const loadImage = (e) => {
-        const image = e.target.files[0];
-        setFoto(image);
-        setPreview(URL.createObjectURL(image));
+    }, []);
+    
+    const setUsia = (e) => {
+        var tahun = tgl_lahir.split('-');
+        var years = new Date().getFullYear();
+        const usia = (years - tahun[0]);
+        setUmur(usia);
     }
 
     async function getPegawaiById() {
@@ -75,6 +74,13 @@ export default function EditPegawai() {
         setRekening(response.no_rekening);
         setFoto(response.foto);
         setPreview(response.url);
+    }
+
+    // load image preview
+    const loadImage = (e) => {
+        const image = e.target.files[0];
+        setFoto(image);
+        setPreview(URL.createObjectURL(image));
     }
 
     async function getData() {
@@ -182,8 +188,8 @@ export default function EditPegawai() {
                 </div>
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <div className="col-span-1 mb-2">
-                        <label htmlFor="nip" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
-                        <input type="number" id="nip" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nip} onChange={(e) => setNip(e.target.value)} />
+                        <label htmlFor="nik" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIK</label>
+                        <input type="number" id="nik" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={nip} onChange={(e) => setNip(e.target.value)} />
                     </div>
                     <div className="col-span-1 mb-2">
                         <label htmlFor="bidang" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bidang <sup className="text-red-500">*</sup></label>
@@ -210,8 +216,15 @@ export default function EditPegawai() {
                         </div>
                     </div>
                     <div className='col-span-1 mb-2'>
-                        <label htmlFor="umur" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Umur <sup className="text-red-500">*</sup></label>
-                        <input type="text" placeholder="" id="umur" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={umur} onChange={(e) => setUmur(e.target.value)} />
+                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+                            <div className="col-span-3">
+                                <label htmlFor="umur" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Umur <sup className="text-red-500">*</sup></label>
+                                <input type="text" placeholder="" id="umur" className="bg-gray-100 border border-gray-300 cursor-not-allowed text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={umur} onChange={(e) => setUmur(e.target.value)} disabled />
+                            </div>
+                            <div className="col-span-1">
+                                <button onClick={setUsia} type="button" className="text-white mt-7 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Get Umur</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -274,7 +287,7 @@ export default function EditPegawai() {
                                 <input type="text" id="rekening" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={bank} onChange={(e) => setBank(e.target.value)} />
                             </div>
                             <div className="mb-8">
-                                <input type="number" id="no-rekeing" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={rekening} onChange={(e) => setRekening(e.target.value)} />
+                                <input type="text" id="no-rekeing" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={rekening} onChange={(e) => setRekening(e.target.value)} />
                             </div>
                         </div>
                     </div>
