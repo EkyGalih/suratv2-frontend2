@@ -22,7 +22,7 @@ export default function PegawaiNonAsn() {
 
     async function getPegawai() {
         const res = await axios.get(
-            `http://localhost:5000/admin/pegawai/nonasn?search_query=${keyword}&page=${page}&limit=${limit}`
+            `${process.env.HOST}/admin/pegawai/nonasn?search_query=${keyword}&page=${page}&limit=${limit}`
         );
         setPegawai(res.data.result);
         setPage(res.data.page);

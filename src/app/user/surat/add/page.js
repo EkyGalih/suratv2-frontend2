@@ -35,7 +35,7 @@ export default function AddSuratUser() {
     async function getBidangById() {
         const bidId = localStorage.getItem('bidangId');
         const bid = await axios.get(
-            `http://localhost:5000/admin/bidang/${bidId}`
+            `${process.env.HOST}/admin/bidang/${bidId}`
         );
         setBidangId(bid.data.id);
         setAsalSurat(bid.data.nama_bidang);
@@ -58,7 +58,7 @@ export default function AddSuratUser() {
 
         try {
             await axios.post(
-                "http://localhost:5000/user/surat", formData, {
+                `${process.env.HOST}/user/surat`, formData, {
                 "Content-type": "multipart/form-data"
             });
             router.push('/user/surat');

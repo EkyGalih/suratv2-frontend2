@@ -49,7 +49,7 @@ export default function EditPegawai() {
 
     async function getPegawaiById() {
         const res = await fetch(
-            `http://localhost:5000/admin/pegawai/${pegawaiId}`, {
+            `${process.env.HOST}/admin/pegawai/${pegawaiId}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -85,7 +85,7 @@ export default function EditPegawai() {
 
     async function getData() {
         const dataBidang = await fetch(
-            `http://localhost:5000/admin/bidang`, {
+            `${process.env.HOST}/admin/bidang`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -121,7 +121,7 @@ export default function EditPegawai() {
 
         try {
             await axios.patch(
-                `http://localhost:5000/admin/pegawai/${pegawaiId}`, formData, {
+                `${process.env.HOST}/admin/pegawai/${pegawaiId}`, formData, {
                 "Content-type": "multipart/form-data"
             });
             router.push('/admin/pegawai/nonasn');

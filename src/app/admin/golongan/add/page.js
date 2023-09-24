@@ -15,7 +15,7 @@ export default function AddGolongan() {
 
 
         const res = await fetch(
-            'http://localhost:5000/admin/golongan', {
+            `${process.env.HOST}/admin/golongan`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"

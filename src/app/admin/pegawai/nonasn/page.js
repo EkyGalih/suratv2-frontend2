@@ -29,7 +29,7 @@ export default function Pegawai() {
 
     async function getPegawai() {
         const res = await axios.get(
-            `http://localhost:5000/admin/pegawai/nonasn?search_query=${keyword}&page=${page}&limit=${limit}`
+            `${process.env.HOST}/admin/pegawai/nonasn?search_query=${keyword}&page=${page}&limit=${limit}`
         );
         setPegawai(res.data.result);
         setPage(res.data.page);
@@ -39,7 +39,7 @@ export default function Pegawai() {
 
     async function deletePegawai(pegawaiId) {
         const del = await fetch(
-            `http://localhost:5000/admin/pegawai/${pegawaiId}`, {
+            `${process.env.HOST}/admin/pegawai/${pegawaiId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json"

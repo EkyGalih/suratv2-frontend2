@@ -14,7 +14,7 @@ export default function AddUser() {
 
     async function getBidangById() {
         const res = await fetch(
-            `http://localhost:5000/admin/bidang/${bidangId}`, {
+            `${process.env.HOST}/admin/bidang/${bidangId}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -32,7 +32,7 @@ export default function AddUser() {
         e.preventDefault();
 
         const res = await fetch(
-            `http://localhost:5000/admin/bidang/${bidangId}`, {
+            `${process.env.HOST}/admin/bidang/${bidangId}`, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json"

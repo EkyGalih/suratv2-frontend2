@@ -16,7 +16,7 @@ export default function SidebarAdmin() {
 
     const Logout = async (e) => {
         const res = await fetch(
-            'http://localhost:5000/logout', {
+            `${process.env.HOST}/logout`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json"

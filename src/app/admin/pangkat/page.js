@@ -21,7 +21,7 @@ export default function Pangkat() {
 
     async function getPangkat() {
         const res = await fetch(
-            `http://localhost:5000/admin/pangkat`, {
+            `${process.env.HOST}/admin/pangkat`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -34,7 +34,7 @@ export default function Pangkat() {
 
     async function deletePangkat(pangkatId) {
         const del = await fetch(
-            `http://localhost:5000/admin/pangkat/${pangkatId}`, {
+            `${process.env.HOST}/admin/pangkat/${pangkatId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json"

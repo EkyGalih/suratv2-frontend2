@@ -43,7 +43,7 @@ export default function AddPegawai() {
 
     async function getData() {
         const dataBidang = await fetch(
-            `http://localhost:5000/admin/bidang`, {
+            `${process.env.HOST}/admin/bidang`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -79,7 +79,7 @@ export default function AddPegawai() {
 
         try {
             await axios.post(
-                "http://localhost:5000/admin/pegawai", formData, {
+                `${process.env.HOST}0/admin/pegawai`, formData, {
                 "Content-type": "multipart/form-data"
             });
             router.push('/admin/pegawai/nonasn');

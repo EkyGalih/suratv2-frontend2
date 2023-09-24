@@ -23,9 +23,9 @@ export default function Surat() {
     }, [page, keyword]);
 
     async function getSurat() {
-        const bidangId = localStorage.getItem('bidangId');
+        const bidangId = sessionStorage.getItem('bidangId');
         const res = await axios.get(
-            `http://localhost:5000/user/surat/${bidangId}?&search_query=${keyword}&page=${page}&limit=${limit}`
+            `${process.env.HOST}/user/surat/${bidangId}?&search_query=${keyword}&page=${page}&limit=${limit}`
         );
         setSurat(res.data.result);
         setPage(res.data.page);
@@ -51,7 +51,7 @@ export default function Surat() {
 
     async function deleteSurat(suratId) {
         const del = await fetch(
-            `http://localhost:5000/user/surat/${suratId}`, {
+            `${process.env.HOST}/user/surat/${suratId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json"

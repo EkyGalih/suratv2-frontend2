@@ -24,7 +24,7 @@ export default function Surat() {
 
     async function getSurat() {
         const res = await axios.get(
-            `http://localhost:5000/user/surat/keluar?&search_query=${keyword}&page=${page}&limit=${limit}`
+            `${process.env.HOST}/user/surat/keluar?&search_query=${keyword}&page=${page}&limit=${limit}`
         );
         setSurat(res.data.result);
         setPage(res.data.page);

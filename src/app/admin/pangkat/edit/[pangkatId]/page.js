@@ -14,7 +14,7 @@ export default function EditPangkat() {
 
     async function getPangkatById() {
         const res = await fetch(
-            `http://localhost:5000/admin/pangkat/${pangkatId}`, {
+            `${process.env.HOST}/admin/pangkat/${pangkatId}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -32,7 +32,7 @@ export default function EditPangkat() {
         e.preventDefault();
 
         const res = await fetch(
-            `http://localhost:5000/admin/pangkat/${pangkatId}`, {
+            `${process.env.HOST}/admin/pangkat/${pangkatId}`, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json"

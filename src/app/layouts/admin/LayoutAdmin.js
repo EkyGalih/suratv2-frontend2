@@ -15,7 +15,7 @@ export default function LayoutAdmin({ children }) {
 
     async function getMe() {
         try {
-            const response = await axios.get(`http://localhost:5000/me/${sessionStorage.getItem('userId')}`);
+            const response = await axios.get(`${process.env.HOST}/me/${sessionStorage.getItem('userId')}`);
             setUser(response.data);;
         } catch (error) {
             if (error.response) {

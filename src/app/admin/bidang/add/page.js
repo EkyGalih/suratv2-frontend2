@@ -15,7 +15,7 @@ export default function AddUser() {
 
 
         const res = await fetch(
-            'http://localhost:5000/admin/bidang', {
+            `${process.env.HOST}/admin/bidang`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"

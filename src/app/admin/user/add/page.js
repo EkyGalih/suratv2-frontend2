@@ -26,7 +26,7 @@ export default function AddUser() {
             },
         };
         const peg = await fetch(
-            `http://localhost:5000/admin/pegawais`,
+            `${process.env.HOST}/admin/pegawais`,
             metaData
         );
         const pegawai = await peg.json();
@@ -42,7 +42,7 @@ export default function AddUser() {
         };
         const pegId = e.target.value;
         const res = await fetch(
-            `http://localhost:5000/admin/pegawai/${pegId}`,
+            `${process.env.HOST}/admin/pegawai/${pegId}`,
             metaData
         );
         const response = await res.json();
@@ -59,7 +59,7 @@ export default function AddUser() {
 
 
         const res = await fetch(
-            'http://localhost:5000/admin/users', {
+            `${process.env.HOST}/admin/users`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"

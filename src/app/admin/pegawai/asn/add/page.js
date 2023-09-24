@@ -49,7 +49,7 @@ export default function AddPegawai() {
 
     async function getData() {
         const dataBidang = await fetch(
-            `http://localhost:5000/admin/bidang`, {
+            `${process.env.HOST}/admin/bidang`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -57,7 +57,7 @@ export default function AddPegawai() {
         });
 
         const dataPangkat = await fetch(
-            `http://localhost:5000/admin/pangkat`, {
+            `${process.env.HOST}/admin/pangkat`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -65,7 +65,7 @@ export default function AddPegawai() {
         });
 
         const dataGolongan = await fetch(
-            `http://localhost:5000/admin/golongan`, {
+            `${process.env.HOST}/admin/golongan`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -114,7 +114,7 @@ export default function AddPegawai() {
 
         try {
             await axios.post(
-                "http://localhost:5000/admin/pegawai", formData, {
+                `${process.env.HOST}/admin/pegawai`, formData, {
                     "Content-type": "multipart/form-data"
             });
             redirect('/admin/pegawai');

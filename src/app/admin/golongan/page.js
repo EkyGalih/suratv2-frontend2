@@ -21,7 +21,7 @@ export default function Golongan() {
 
     async function getGolongan() {
         const res = await fetch(
-            `http://localhost:5000/admin/golongan`, {
+            `${process.env.HOST}/admin/golongan`, {
             method: "GET",
             cache: "force-cache",
             headers: {
@@ -35,7 +35,7 @@ export default function Golongan() {
 
     async function deleteGolongan(golonganId) {
         const del = await fetch(
-            `http://localhost:5000/admin/golongan/${golonganId}`, {
+            `${process.env.HOST}/admin/golongan/${golonganId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json"

@@ -20,7 +20,7 @@ export default function User() {
 
     async function getUsers() {
         const res = await fetch(
-            `http://localhost:5000/admin/users`, {
+            `${process.env.HOST}/admin/users`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -33,7 +33,7 @@ export default function User() {
 
     async function deleteUser(userId) {
         const del = await fetch(
-            `http://localhost:5000/admin/users/${userId}`, {
+            `${process.env.HOST}/admin/users/${userId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json"

@@ -11,6 +11,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,11 +22,11 @@ export default function Login() {
     // }
   }, []);
 
-const login = async (e) => {
+  const login = async (e) => {
     e.preventDefault();
 
     const res = await fetch(
-      'http://localhost:5000/login', {
+      `${process.env.HOST}/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json"
@@ -43,10 +44,11 @@ const login = async (e) => {
       sessionStorage.setItem('username', response.username);
       sessionStorage.setItem('name', response.nama_lengkap);
       sessionStorage.setItem('level', response.level);
+      setIsLoading(true);
 
       const userId = sessionStorage.getItem('userId');
       const peg = await fetch(
-        `http://localhost:5000/me/${userId}`, {
+        `${process.env.HOST}/me/${userId}`, {
         method: "GET",
         headers: {
           "Content-type": "application/json"
@@ -103,10 +105,15 @@ const login = async (e) => {
               <label htmlFor="remember" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ingat Saya</label>
             </div>
             <button type="submit" className="inline-flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              <svg className="w-4 h-4 mr-2 text-gray-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 15">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3" />
-              </svg>
-              <span className="-mt-0.5">Masuk</span>
+              {isLoading === false
+                ? <div className="inline-flex">
+                  <svg className="w-4 h-4 mr-2 text-gray-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 15">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3" />
+                  </svg>
+                  <span className="-mt-0.5">Masuk</span>
+                </div>
+                : <span className="-mt-0.5">Loading...</span>
+              }
             </button>
           </form>
         </div>

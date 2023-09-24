@@ -14,7 +14,7 @@ export default function EditGolongan() {
 
     async function getGolonganById() {
         const res = await fetch(
-            `http://localhost:5000/admin/golongan/${golonganId}`, {
+            `${process.env.HOST}/admin/golongan/${golonganId}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -32,7 +32,7 @@ export default function EditGolongan() {
         e.preventDefault();
 
         const res = await fetch(
-            `http://localhost:5000/admin/golongan/${golonganId}`, {
+            `${process.env.HOST}/admin/golongan/${golonganId}`, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json"

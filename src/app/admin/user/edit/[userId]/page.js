@@ -26,7 +26,7 @@ export default function userId() {
 
   async function getUsersById() {
     const res = await fetch(
-      `http://localhost:5000/admin/users/${userId}`, {
+      `${process.env.HOST}/admin/users/${userId}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json"
@@ -43,7 +43,7 @@ export default function userId() {
   async function handleChange(e) {
     const pegId = e.target.value;
     const res = await fetch(
-      `http://localhost:5000/admin/pegawai/${pegId}`, {
+      `${process.env.HOST}/admin/pegawai/${pegId}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json"
@@ -59,7 +59,7 @@ export default function userId() {
 
   async function getPegawai() {
     const peg = await fetch(
-      `http://localhost:5000/admin/pegawais`, {
+      `${process.env.HOST}/admin/pegawais`, {
       method: "GET",
       headers: {
         "Content-type": "application/json"
@@ -74,7 +74,7 @@ export default function userId() {
     e.preventDefault();
 
     const res = await fetch(
-      `http://localhost:5000/admin/users/${userId}`, {
+      `${process.env.HOST}/admin/users/${userId}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json"

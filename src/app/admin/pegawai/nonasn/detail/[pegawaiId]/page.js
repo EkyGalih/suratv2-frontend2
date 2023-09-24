@@ -33,7 +33,7 @@ export default function DetailPegawai() {
 
     async function getPegawaiById() {
         const res = await fetch(
-            `http://localhost:5000/admin/pegawai/${pegawaiId}`, {
+            `${process.env.HOST}/admin/pegawai/${pegawaiId}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"

@@ -27,7 +27,7 @@ export default function AddSuratUser() {
 
     async function getSuratById() {
         const res = await axios.get(
-            `http://localhost:5000/user/surats/${suratId}`
+            `${process.env.HOST}/user/surats/${suratId}`
         );
         setFile(res.data.file);
         setPerihal(res.data.surat.perihal);
@@ -47,9 +47,9 @@ export default function AddSuratUser() {
     };
 
     async function getBidangById() {
-        const bidId = localStorage.getItem('bidangId');
+        const bidId = sessionStorage.getItem('bidangId');
         const bid = await axios.get(
-            `http://localhost:5000/admin/bidang/${bidId}`
+            `${process.env.HOST}/admin/bidang/${bidId}`
         );
         setBidangId(bid.data.id);
         setAsalSurat(bid.data.nama_bidang);
@@ -72,7 +72,7 @@ export default function AddSuratUser() {
 
         try {
             await axios.patch(
-                `http://localhost:5000/user/surat/${suratId}`, formData, {
+                `${process.env.HOST}/user/surat/${suratId}`, formData, {
                 "Content-type": "multipart/form-data"
             });
             router.push('/user/surat');
@@ -109,7 +109,7 @@ export default function AddSuratUser() {
                             <svg className="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <a href="#" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Add Surat</a>
+                            <a href="#" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Edit Surat</a>
                         </div>
                     </li>
                 </ol>

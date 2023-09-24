@@ -20,7 +20,7 @@ export default function Bidang() {
 
     async function getBidang() {
         const res = await fetch(
-            `http://localhost:5000/admin/bidang`, {
+            `${process.env.HOST}/admin/bidang`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -33,7 +33,7 @@ export default function Bidang() {
 
     async function deleteBidang(bidangId) {
         const del = await fetch(
-            `http://localhost:5000/admin/bidang/${bidangId}`, {
+            `${process.env.HOST}/admin/bidang/${bidangId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json"
