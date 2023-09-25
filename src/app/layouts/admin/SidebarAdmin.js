@@ -35,7 +35,7 @@ export default function SidebarAdmin() {
         <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
 
             <div className="inline-flex">
-                <img className="h-20 ml-3 mb-10 w-24 rounded-full shadow-xl dark:shadow-gray-800" src={foto} alt="Profile" />
+                <img className="h-40 ml-3 mb-10 w-24 rounded-lg shadow-xl dark:shadow-gray-800" src={foto} alt="Profile" />
                 <div className="col-span-2 ml-2">
                     <h1 className="text-lg font-extrabold mb-0.5">{name}</h1>
                     <span className="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 uppercase">{level}</span>
