@@ -41,19 +41,20 @@ export default function User() {
         }
         );
         const hapus = await del.json();
-        console.log(router);
         if (hapus.status == 'ok') {
             setMsg(hapus.msg);
+            setStatus(hapus.status);
             router.replace('/admin/user');
         } else if (hapus.status == 'fail') {
             setMsg(hapus.msg);
+            setStatus(hapus.status);
         }
     }
 
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [users]);
 
     return (
         <LayoutAdmin>
@@ -74,9 +75,13 @@ export default function User() {
 
             {/* ERROR MESSAGE */}
             {msg === "" ? '' :
-                <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                    <span className="font-medium">Error!</span> {msg}
-                </div>
+                status === 'ok' ?
+                    <div className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                        <span className="font-medium">Success!</span> {msg}
+                    </div>
+                    : <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <span className="font-medium">Error!</span> {msg}
+                    </div>
             }
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

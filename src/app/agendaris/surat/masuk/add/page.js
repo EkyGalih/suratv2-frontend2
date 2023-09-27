@@ -1,16 +1,16 @@
 'use client'
 
-import LayoutUser from "@/app/layouts/user/LayoutUser";
+import LayoutAgendaris from "@/app/layouts/agendaris/LayoutAgendaris";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function AddSuratUser() {
+export default function TambahSuratMasuk() {
     const [file, setFile] = useState("");
     const [perihal, setPerihal] = useState("");
     const [kategori, setKategori] = useState("");
-    const [bidangId, setBidangId] = useState("");
     const [asal_surat, setAsalSurat] = useState("");
+    const [no_surat, setNoSurat] = useState("");
     const [tgl_surat, setTglSurat] = useState("");
     const [tgl_terima, setTglTerima] = useState("");
     const [preview, setPreview] = useState("");
@@ -23,24 +23,6 @@ export default function AddSuratUser() {
         setPreview(URL.createObjectURL(image));
     }
 
-    useEffect(() => {
-        getBidangById();
-        let newDate = new Date();
-        let date = newDate.getDate();
-        let month = newDate.getMonth() + 1;
-        let year = newDate.getFullYear();
-        setTglTerima(year+'-0'+month+'-'+date);
-    }, []);
-
-    async function getBidangById() {
-        const bidId = sessionStorage.getItem('bidangId');
-        const bid = await axios.get(
-            `${process.env.HOST}/admin/bidang/${bidId}`
-        );
-        setBidangId(bid.data.id);
-        setAsalSurat(bid.data.nama_bidang);
-    }
-
     const saveSurat = async (e) => {
         e.preventDefault();
 
@@ -49,35 +31,34 @@ export default function AddSuratUser() {
         formData.append("kategori", kategori);
         formData.append("perihal", perihal);
         formData.append("file", file);
-        formData.append("bidangId", bidangId);
         formData.append("asal_surat", asal_surat);
-        formData.append("jenis_surat", "keluar");
+        formData.append("no_surat", no_surat);
+        formData.append("jenis_surat", "masuk");
         formData.append("tgl_terima", tgl_terima);
         formData.append("tgl_surat", tgl_surat);
         formData.append("status_surat", 'proggress');
 
         try {
             await axios.post(
-                `${process.env.HOST}/user/surat`, formData, {
+                `${process.env.HOST}/agendaris/surat`, formData, {
                 "Content-type": "multipart/form-data"
             });
-            router.push('/user/surat');
+            router.push('/agendaris/surat/masuk');
         } catch (error) {
             if (error.response) {
                 setMsg(error.response.data.msg);
             }
         }
     }
-
     return (
-        <LayoutUser>
+        <LayoutAgendaris>
             <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
-                <h2 className="flex mb-5 text-2xl font-extrabold dark:text-white">
+                <h2 className="flex title mb-5 text-2xl font-extrabold dark:text-white">
                     <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                         <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
                         <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
                     </svg>
-                    <span className="flex-1 ml-2 whitespace-nowrap">Surat</span>
+                    <span className="flex-1 ml-2 whitespace-nowrap">Surat Masuk</span>
                 </h2>
             </div>
             <nav className="flex mb-5" aria-label="Breadcrumb">
@@ -95,7 +76,7 @@ export default function AddSuratUser() {
                             <svg className="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <a href="#" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Add Surat</a>
+                            <a href="#" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Input Surat Masuk</a>
                         </div>
                     </li>
                 </ol>
@@ -117,12 +98,24 @@ export default function AddSuratUser() {
                             </select>
                         </div>
                         <div class="mb-3 text-gray-500 dark:text-gray-400">
-                            <label htmlFor="perihal" className="block mb-2 mr-5 text-sm font-medium text-gray-900 dark:text-white">Perihal</label>
-                            <textarea id="perihal" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={perihal} onChange={(e) => setPerihal(e.target.value)}></textarea>
+                            <label htmlFor="perihal" className="block mb-2 mr-5 text-sm font-medium text-gray-900 dark:text-white">Asal Surat</label>
+                            <input type="text" placeholder="" id="asal-surat" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={asal_surat} onChange={(e) => setAsalSurat(e.target.value)} />
+                        </div>
+                        <div class="mb-3 text-gray-500 dark:text-gray-400">
+                            <label htmlFor="perihal" className="block mb-2 mr-5 text-sm font-medium text-gray-900 dark:text-white">No Surat</label>
+                            <input type="text" placeholder="" id="no-surat" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={no_surat} onChange={(e) => setNoSurat(e.target.value)} />
                         </div>
                         <div class="mb-3 text-gray-500 dark:text-gray-400">
                             <label htmlFor="perihal" className="block mb-2 mr-5 text-sm font-medium text-gray-900 dark:text-white">Tanggal Surat</label>
-                            <input type="date" placeholder="" id="tanggal-lahir" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={tgl_surat} onChange={(e) => setTglSurat(e.target.value)} />
+                            <input type="date" placeholder="" id="tanggal-surat" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={tgl_surat} onChange={(e) => setTglSurat(e.target.value)} />
+                        </div>
+                        <div class="mb-3 text-gray-500 dark:text-gray-400">
+                            <label htmlFor="perihal" className="block mb-2 mr-5 text-sm font-medium text-gray-900 dark:text-white">Tanggal Terima</label>
+                            <input type="date" placeholder="" id="tanggal-terima" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={tgl_terima} onChange={(e) => setTglTerima(e.target.value)} />
+                        </div>
+                        <div class="mb-3 text-gray-500 dark:text-gray-400">
+                            <label htmlFor="perihal" className="block mb-2 mr-5 text-sm font-medium text-gray-900 dark:text-white">Perihal</label>
+                            <textarea id="perihal" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={perihal} onChange={(e) => setPerihal(e.target.value)}></textarea>
                         </div>
                         <div class="mb-3 text-gray-500 dark:text-gray-400">
                             <label htmlFor="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File Surat</label>
@@ -137,7 +130,7 @@ export default function AddSuratUser() {
                                 <span>Simpan</span>
                             </button>
 
-                            <a href='/user/surat' className="flex py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                            <a href='/agendaris/surat/masuk' className="flex py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                 <svg className="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 16">
                                     <path d="M10.819.4a1.974 1.974 0 0 0-2.147.33l-6.5 5.773A2.014 2.014 0 0 0 2 6.7V1a1 1 0 0 0-2 0v14a1 1 0 1 0 2 0V9.3c.055.068.114.133.177.194l6.5 5.773a1.982 1.982 0 0 0 2.147.33A1.977 1.977 0 0 0 12 13.773V2.227A1.977 1.977 0 0 0 10.819.4Z" />
                                 </svg>
@@ -154,6 +147,6 @@ export default function AddSuratUser() {
                     </div>
                 </div>
             </form>
-        </LayoutUser>
+        </LayoutAgendaris>
     )
 }
