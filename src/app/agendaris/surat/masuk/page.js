@@ -24,7 +24,7 @@ export default function SuratMasuk() {
     async function getSuratMasuk() {
         const res = await axios.get(
             `${process.env.HOST}/agendaris/surat/masuk`
-        );
+        );  
         setSurat(res.data.result);
         setPage(res.data.page);
         setPages(res.data.totalPage);
@@ -191,12 +191,12 @@ export default function SuratMasuk() {
                                                                 : <span></span>
                                             }</td>
                                             <td className="px-6 py-4">
-
+                                            {item.diteruskan}
                                             </td>
                                             <td className="px-6 py-4 text-center inline-flex">
                                                 <a href={`/agendaris/surat/masuk/distribusi/${item.id}`} data-tooltip-target="tooltip-edit" className="inline-flex items-center focus:outline-none text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:focus:ring-blue-900">
                                                     <svg className="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5.953 7.467 6.094-2.612m.096 8.114L5.857 9.676m.305-1.192a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0ZM17 3.84a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0Zm0 10.322a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0Z" />
+                                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m5.953 7.467 6.094-2.612m.096 8.114L5.857 9.676m.305-1.192a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0ZM17 3.84a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0Zm0 10.322a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0Z" />
                                                     </svg>
                                                 </a>
                                                 <div id="tooltip-edit" role="tooltip" className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
