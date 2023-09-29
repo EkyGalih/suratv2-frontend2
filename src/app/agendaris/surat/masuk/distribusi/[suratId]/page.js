@@ -19,6 +19,7 @@ export default function DistribusiSuratMasuk() {
   const [tgl_terima, setTglTerima] = useState("");
   const [no_surat, setNoSurat] = useState("");
   const [distribusi, setDistribusi] = useState([]);
+  const [getDist, setGetDist] = useState([]);
   const [msg, setMsg] = useState("");
   const router = useRouter();
 
@@ -26,7 +27,7 @@ export default function DistribusiSuratMasuk() {
     getBidang();
     getSuratById();
     getDistribusi();
-  }, [distribusi]);
+  }, [getDist]);
 
   async function getSuratById() {
     const res = await axios.get(
@@ -48,12 +49,13 @@ export default function DistribusiSuratMasuk() {
     );
     setBidang(bid.data);
   }
-
+  
   async function getDistribusi() {
     const dist = await axios.get(
       `${process.env.HOST}/agendaris/distribusi/${suratId}`
-    );
-    setDistribusi(dist.data);
+      );
+      // console.log(typeof(dist.data));
+      setGetDist(dist.data);
   }
 
   const handleCheck = async (e) => {
@@ -178,11 +180,7 @@ export default function DistribusiSuratMasuk() {
                   return (
                     <tr key={bid.id}>
                       <td>
-                        {bid.id === distribusi.bidangId
-                          ? <input id="vue-checkbox" type="checkbox" value={bid.id} onChange={handleCheck} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked />
-                          :
                           <input id="vue-checkbox" type="checkbox" value={bid.id} onChange={handleCheck} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        }
                       </td>
                       <td scope="col" className="px-2 py-2">
                         <label htmlFor="vue-checkbox" className="w-full py-3 ml-2 text-sm font-extrabold text-gray-700 dark:text-gray-300">{bid.nama_bidang}</label>
