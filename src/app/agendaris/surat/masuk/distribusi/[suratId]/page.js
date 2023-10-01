@@ -24,10 +24,9 @@ export default function DistribusiSuratMasuk() {
   const router = useRouter();
 
   useEffect(() => {
-    getBidang();
+    getData();
     getSuratById();
-    getDistribusi();
-  }, [getDist]);
+  }, []);
 
   async function getSuratById() {
     const res = await axios.get(
@@ -43,19 +42,22 @@ export default function DistribusiSuratMasuk() {
 
   }
 
-  async function getBidang() {
+  async function getData() {
     const bid = await axios.get(
       `${process.env.HOST}/agendaris/bidang`
     );
-    setBidang(bid.data);
-  }
-  
-  async function getDistribusi() {
     const dist = await axios.get(
       `${process.env.HOST}/agendaris/distribusi/${suratId}`
-      );
-      // console.log(typeof(dist.data));
-      setGetDist(dist.data);
+    );
+    setBidang(bid.data);
+    setGetDist(dist.data);
+
+    if (bid.data.length !== dist.data.length) {
+      const length = bid.data.length - dist.data.length;
+      for (let i = 0; i < length; i++) {
+        setGetDist(getDist => [...getDist, {bidangId: i}]);
+      }
+    }
   }
 
   const handleCheck = async (e) => {
@@ -176,11 +178,14 @@ export default function DistribusiSuratMasuk() {
             <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">Distribusikan Ke Bidang : </h3>
             <table>
               <tbody>
-                {bidang && bidang.map((bid, i) => {
+                {bidang && bidang.map((bid, index) => {
                   return (
                     <tr key={bid.id}>
                       <td>
-                          <input id="vue-checkbox" type="checkbox" value={bid.id} onChange={handleCheck} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                        {getDist[index].bidangId === bid.id
+                          ? <input id="vue-checkbox" type="checkbox" value={bid.id} onChange={handleCheck} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked />
+                          : <input id="vue-checkbox" type="checkbox" value={bid.id} onChange={handleCheck} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                        }
                       </td>
                       <td scope="col" className="px-2 py-2">
                         <label htmlFor="vue-checkbox" className="w-full py-3 ml-2 text-sm font-extrabold text-gray-700 dark:text-gray-300">{bid.nama_bidang}</label>

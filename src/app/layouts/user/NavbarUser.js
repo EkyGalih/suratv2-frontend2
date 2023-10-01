@@ -9,7 +9,6 @@ export default function NavbarUser() {
   const [foto, setFoto] = useState("");
   const [name, setName] = useState("");
   const [level, setLevel] = useState("");
-  const [bidangId, setBidangId] = useState("");
   const [distribusi, setDistribusi] = useState([]);
   const [countDist, setCount] = useState(0);
   const router = useRouter();
@@ -18,7 +17,7 @@ export default function NavbarUser() {
     setFoto(sessionStorage.getItem('foto'));
     setName(sessionStorage.getItem('name'));
     setLevel(sessionStorage.getItem('level'));
-    setBidangId(sessionStorage.getItem('bidangId'));
+
     getDistribusiByBidangId();
   }, [countDist]);
 
@@ -41,9 +40,11 @@ export default function NavbarUser() {
 
   async function getDistribusiByBidangId() {
     const res = await axios.get(
-      `${process.env.HOST}/distribusi/${bidangId}`
+      `${process.env.HOST}/distribusi/${sessionStorage.getItem('bidangId')}`,
     );
-    setDistribusi(res.data);
+    setDistribusi(res.data.result);
+    setCount(res.data.totalRows);
+    console.log(res.data.result);
   }
 
   return (
@@ -79,8 +80,12 @@ export default function NavbarUser() {
                   ? <span className="ml-5 py-5">Tidak ada notifikasi</span>
                   : distribusi && distribusi.map((dist, index) => {
                     return (
-                      <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+                      <li key={index}>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                          <span className="text-gray-700 text-sm">{dist.surat.perihal}</span>
+                          <br/>
+                          <span className="text-xs font-serif text-right">{dist.surat.tgl_surat}</span>
+                        </a>
                       </li>
                     )
                   })
