@@ -14,12 +14,12 @@ export default function DistribusiSuratMasuk() {
   const [kategori, setKategori] = useState("");
   const [bidang, setBidang] = useState([]);
   const [diteruskan, setDiteruskan] = useState([]);
+  const [terusan, setTerusan] = useState([]);
   const [asal_surat, setAsalSurat] = useState("");
   const [tgl_surat, setTglSurat] = useState("");
   const [tgl_terima, setTglTerima] = useState("");
   const [no_surat, setNoSurat] = useState("");
   const [distribusi, setDistribusi] = useState([]);
-  const [getDist, setGetDist] = useState([]);
   const [msg, setMsg] = useState("");
   const router = useRouter();
 
@@ -38,6 +38,7 @@ export default function DistribusiSuratMasuk() {
     setAsalSurat(res.data.surat.asal_surat);
     setTglSurat(res.data.surat.tgl_surat);
     setTglTerima(res.data.surat.tgl_terima);
+    setTerusan(res.data.surat.diteruskan);
     setDisposisi(res.data.surat.isi_disposisi);
 
   }
@@ -46,18 +47,7 @@ export default function DistribusiSuratMasuk() {
     const bid = await axios.get(
       `${process.env.HOST}/agendaris/bidang`
     );
-    const dist = await axios.get(
-      `${process.env.HOST}/agendaris/distribusi/${suratId}`
-    );
     setBidang(bid.data);
-    setGetDist(dist.data);
-
-    if (bid.data.length !== dist.data.length) {
-      const length = bid.data.length - dist.data.length;
-      for (let i = 0; i < length; i++) {
-        setGetDist(getDist => [...getDist, {bidangId: i}]);
-      }
-    }
   }
 
   const handleCheck = async (e) => {
@@ -171,6 +161,11 @@ export default function DistribusiSuratMasuk() {
                 <span className="px-2 py-2 mr-4">:</span>
                 <span className="px-2 py-2">{disposisi}</span>
               </div>
+              <div className="inline-flex">
+                <span className="px-2 py-2 mr-12">Diteruskan</span>
+                <span className="px-2 py-2 mr-4">:</span>
+                <span className="px-2 py-2">{terusan}</span>
+              </div>
             </div>
 
           </div>
@@ -180,12 +175,9 @@ export default function DistribusiSuratMasuk() {
               <tbody>
                 {bidang && bidang.map((bid, index) => {
                   return (
-                    <tr key={bid.id}>
+                    <tr key={index}>
                       <td>
-                        {getDist[index].bidangId === bid.id
-                          ? <input id="vue-checkbox" type="checkbox" value={bid.id} onChange={handleCheck} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked />
-                          : <input id="vue-checkbox" type="checkbox" value={bid.id} onChange={handleCheck} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        }
+                          <input id="vue-checkbox" type="checkbox" value={bid.id} onChange={handleCheck} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                       </td>
                       <td scope="col" className="px-2 py-2">
                         <label htmlFor="vue-checkbox" className="w-full py-3 ml-2 text-sm font-extrabold text-gray-700 dark:text-gray-300">{bid.nama_bidang}</label>

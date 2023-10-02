@@ -1,7 +1,7 @@
 import LayoutAgendaris from "../layouts/agendaris/LayoutAgendaris"
 
 export const metadata = {
-  title: 'Admin | Dashboard',
+  title: 'Agendaris | Dashboard',
   openGraph: {
     title: 'Dashboard',
     description: 'App surat bpkad'
