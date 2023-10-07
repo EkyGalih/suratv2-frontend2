@@ -10,7 +10,9 @@ export default function NavbarPimpinan() {
   const [name, setName] = useState("");
   const [level, setLevel] = useState("");
   const [suratKeluar, setSuratKeluar] = useState([]);
+  const [suratMasuk, setSuratMasuk] = useState([]);
   const [countSuratKeluar, setCountKeluar] = useState(0);
+  const [countSuratMasuk, setCountMasuk] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -18,7 +20,8 @@ export default function NavbarPimpinan() {
     setName(sessionStorage.getItem('name'));
     setLevel(sessionStorage.getItem('level'));
     getSuratKeluarNew();
-  }, [countSuratKeluar, suratKeluar]);
+    getSuratMasukNew();
+  }, [countSuratMasuk, countSuratKeluar]);
 
   const Logout = async (e) => {
     const res = await fetch(
@@ -37,12 +40,20 @@ export default function NavbarPimpinan() {
     router.push('/');
   };
 
-  async function getSuratKeluarNew() {
-    const res = await axios.get(
-      `${process.env.HOST}/pimpinan/surat/keluar/count`
+  async function getSuratMasukNew() {
+    const masuk = await axios.get(
+      `${process.env.HOST}/pimpinan/surat/masuk/notif`
     );
-    setCountKeluar(res.data.totalRows);
-    setSuratKeluar(res.data.result);
+    setCountMasuk(masuk.data.rows);
+    setSuratMasuk(masuk.data.result);
+  }
+
+  async function getSuratKeluarNew() {
+    const keluar = await axios.get(
+      `${process.env.HOST}/pimpinan/surat/keluar/notif`
+    );
+    setCountKeluar(keluar.data.rows);
+    setSuratKeluar(keluar.data.result);
   }
 
   return (
@@ -62,7 +73,40 @@ export default function NavbarPimpinan() {
             </a>
           </div>
           <div className="flex items-center">
-            <button id="notif-surat" data-dropdown-toggle="dropdown" className="relative p-3 mr-4 text-white bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-white dark:hover:bg-gray-100 dark:focus:ring-gray-100" type="button">
+            {/* MENU NOTIFIKASI SURAT MASUK */}
+            <button id="notif-surat" data-dropdown-toggle="surat-masuk" className="relative mr-1 text-white bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-white dark:hover:bg-gray-100 dark:focus:ring-gray-100" type="button">
+              <svg className="flex-shrink w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="m9.978 13.233 9.392-6.668a1.945 1.945 0 0 0-.186-.177L11.2.65A2 2 0 0 0 8.815.638L.8 6.4a1.928 1.928 0 0 0-.207.2l9.385 6.633Z" />
+                <path d="M11.181 14.864a2.007 2.007 0 0 1-2.382-.014L0 8.627V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.573l-8.819 6.29Z" />
+              </svg>
+              {countSuratMasuk === 0
+                ? ''
+                : <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border-1 border-white rounded-full -top-1 -right-0 dark:border-gray-900">{countSuratMasuk}</div>
+              }
+            </button>
+            <div id="surat-masuk" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="notif-surat">
+                {countSuratMasuk === 0
+                  ? <span className="ml-5 py-5">Tidak ada notifikasi</span>
+                  : suratMasuk && suratMasuk.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <a href={`/pimpinan/surat/masuk/disposisi/${item.id}`} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                          <span className="text-gray-700 text-sm">{item.perihal}</span>
+                          <span className="text-xs font-serif text-right">{item.tgl_surat}</span>
+                        </a>
+                      </li>
+                    )
+                  })
+                }
+              </ul>
+              <div className="py-2">
+                <a href="/pimpinan/surat/masuk" className="block px-4 py-2 text-xs text-center text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Show All Surat Masuk</a>
+              </div>
+            </div>
+
+            {/* MENU NOTIFIKASI SURAT KELUAR */}
+            <button id="notif-surat" data-dropdown-toggle="surat-keluar" className="relative mr-4 text-white bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-white dark:hover:bg-gray-100 dark:focus:ring-gray-100" type="button">
               <svg className="flex-shrink w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                 <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
                 <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
@@ -73,16 +117,16 @@ export default function NavbarPimpinan() {
               }
             </button>
             {/* <!-- Dropdown menu --> */}
-            <div id="dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <div id="surat-keluar" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
               <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="notif-surat">
                 {countSuratKeluar === 0
                   ? <span className="ml-5 py-5">Tidak ada notifikasi</span>
-                  : suratKeluar && suratKeluar.map((surat) => {
+                  : suratKeluar && suratKeluar.map((keluar, index) => {
                     return (
-                      <li key={surat.id}>
-                        <a href={`/pimpinan/surat/keluar/disposisi/${surat.id}`} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                          <span className="text-gray-700 text-sm">{surat.perihal}</span>
-                          <span className="text-xs font-serif text-right">{surat.tgl_surat}</span>
+                      <li key={index}>
+                        <a href={`/pimpinan/surat/keluar/${keluar.id}`} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                          <span className="text-gray-700 text-sm">{keluar.perihal}</span>
+                          <span className="text-xs font-serif text-right">{keluar.tgl_surat}</span>
                         </a>
                       </li>
                     )

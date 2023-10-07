@@ -36,7 +36,7 @@ export default function TambahSuratMasuk() {
         formData.append("jenis_surat", "masuk");
         formData.append("tgl_terima", tgl_terima);
         formData.append("tgl_surat", tgl_surat);
-        formData.append("status_surat", 'proggress');
+        formData.append("status_surat", 'unread');
 
         try {
             await axios.post(

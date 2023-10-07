@@ -30,7 +30,7 @@ export default function DisposisiSuratKeluar() {
 
   async function getSuratById() {
     const res = await axios.get(
-      `${process.env.HOST}/pimpinan/surats/${suratId}`
+      `${process.env.HOST}/pimpinan/surat/keluar/${suratId}`
     );
     setFile(res.data.file);
     setPerihal(res.data.surat.perihal);
@@ -115,27 +115,27 @@ export default function DisposisiSuratKeluar() {
                   <span className="px-2 py-2 mr-11">Pemohon</span>
                   <span className="px-2 py-2 mr-4">:</span>
                   <span className="px-2 py-2">{bidang}</span>
-                </div>
+                </div><br/>
                 <div className="inline-flex">
                   <span className="px-2 py-2 mr-8">Jenis Surat</span>
                   <span className="px-2 py-2 mr-4">:</span>
                   <span className="px-2 py-2">Surat {kategori}</span>
-                </div>
+                </div><br/>
                 <div className="inline-flex">
                   <span className="px-2 py-2 mr-12">No Surat</span>
                   <span className="px-2 py-2 mr-4">:</span>
                   <span className="px-2 py-2">{no_surat}</span>
-                </div>
+                </div><br/>
                 <div className="inline-flex">
                   <span className="px-2 py-2 mr-16">Perihal</span>
                   <span className="px-2 py-2 mr-4">:</span>
                   <span className="px-2 py-2">{perihal}</span>
-                </div>
+                </div><br/>
                 <div className="inline-flex">
                   <span className="px-2 py-2 mr-3">Tanggal Surat</span>
                   <span className="px-2 py-2 mr-4">:</span>
                   <span className="px-2 py-2">{tgl_surat}</span>
-                </div>
+                </div><br/>
                 <div className="inline-flex">
                   <span className="px-2 py-2">Tanggal Terima</span>
                   <span className="px-2 py-2 mr-4">:</span>

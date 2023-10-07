@@ -127,7 +127,7 @@ export default function DistribusiSuratMasuk() {
           <div className="col-span-1">
             <div className="mb-3 text-gray-500 dark:text-gray-400">
               <div className="inline-flex">
-                <span className="px-2 py-2 mr-11">Asal Surat</span>
+                <span className="px-2 py-2 mr-10">Asal Surat</span>
                 <span className="px-2 py-2 mr-4">:</span>
                 <span className="px-2 py-2">{asal_surat}</span>
               </div>
@@ -162,7 +162,7 @@ export default function DistribusiSuratMasuk() {
                 <span className="px-2 py-2">{disposisi}</span>
               </div>
               <div className="inline-flex">
-                <span className="px-2 py-2 mr-12">Diteruskan</span>
+                <span className="px-2 py-2 mr-9">Diteruskan</span>
                 <span className="px-2 py-2 mr-4">:</span>
                 <span className="px-2 py-2">{terusan}</span>
               </div>
