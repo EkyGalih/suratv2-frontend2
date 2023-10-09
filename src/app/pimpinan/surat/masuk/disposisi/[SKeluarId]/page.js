@@ -54,7 +54,7 @@ export default function DisposisiSuratMasuk() {
                 "Content-type": "multipart/form-data"
             });
             router.push('/pimpinan/surat/masuk');
-        } catch (error) {   
+        } catch (error) {
             if (error.response) {
                 setMsg(error.response.data.msg);
             }
@@ -97,42 +97,137 @@ export default function DisposisiSuratMasuk() {
             </div>}
             <form onSubmit={saveSurat}>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <div className="col-span-1">
+                    <div className="col-span-2">
                         <div className="mb-3 text-gray-500 dark:text-gray-400">
-                            <div className="inline-flex">
-                                <span className="px-2 py-2 mr-10">Asal Surat</span>
-                                <span className="px-2 py-2 mr-4">:</span>
-                                <span className="px-2 py-2">{asal_surat}</span>
-                            </div><br />
-                            <div className="inline-flex">
-                                <span className="px-2 py-2 mr-8">Jenis Surat</span>
-                                <span className="px-2 py-2 mr-4">:</span>
-                                <span className="px-2 py-2">Surat {kategori}</span>
-                            </div><br />
-                            <div className="inline-flex">
-                                <span className="px-2 py-2 mr-12">No Surat</span>
-                                <span className="px-2 py-2 mr-4">:</span>
-                                <span className="px-2 py-2">{no_surat}</span>
-                            </div><br />
-                            <div className="inline-flex">
-                                <span className="px-2 py-2 mr-16">Perihal</span>
-                                <span className="px-2 py-2 mr-4">:</span>
-                                <span className="px-2 py-2">{perihal}</span>
-                            </div><br />
-                            <div className="inline-flex">
-                                <span className="px-2 py-2 mr-3">Tanggal Surat</span>
-                                <span className="px-2 py-2 mr-4">:</span>
-                                <span className="px-2 py-2">{tgl_surat}</span>
-                            </div><br />
-                            <div className="inline-flex">
-                                <span className="px-2 py-2">Tanggal Terima</span>
-                                <span className="px-2 py-2 mr-4">:</span>
-                                <span className="px-2 py-2">{tgl_terima}</span>
-                            </div>
-                        </div>
-                        <div className="mb-3 text-gray-500 dark:text-gray-400">
-                            <label htmlFor="perihal" className="block mb-2 mr-5 text-sm font-medium text-gray-900 dark:text-white">Disposisi</label>
-                            <textarea id="perihal" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis disposisi" value={disposisi} onChange={(e) => setDisposisi(e.target.value)}></textarea>
+                            <table className="w-full border text-sm text-left text-gray-500 dark:text-gray-400">
+                                <tbody>
+                                    <tr className="bg-white border dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row" className="px-6 py-1 border font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Nomor Agenda/Registrasi
+                                        </th>
+                                        <th scope="row" className="border">:</th>
+                                        <td className="pl-1">
+                                            <input type="text" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                                        </td>
+                                        <td className="px-6 py-1">
+                                            Tanggal Keamanan
+                                        </td>
+                                        <td className="px-6 py-1">
+                                            SR/ R/T/ B
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row" className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Tanggal Penerimaan :
+                                        </th>
+                                        <td className="px-6 py-1">
+                                            {tgl_terima}
+                                        </td>
+                                        <td className="px-6 py-1">
+                                            Tanggal Penyelesaian :
+                                        </td>
+                                        <td className="px-6 py-1">
+                                            <input type="date" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white dark:bg-gray-800">
+                                        <th scope="row" className="px-24 py-1  font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Asal Surat :
+                                        </th>
+                                        <td className="px-6 py-1">
+                                            {asal_surat}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white dark:bg-gray-800">
+                                        <th scope="row" className="px-24 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Tanggal Surat :
+                                        </th>
+                                        <td className="px-6 py-1">
+                                            {tgl_surat}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white dark:bg-gray-800">
+                                        <th scope="row" className="pl-24 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Nomor Surat
+                                        </th>
+                                        <th>:</th>
+                                        <td className="pl-1 py-1">
+                                            {no_surat}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white dark:bg-gray-800">
+                                        <th scope="row" className="pl-24 pr-1 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Lampiran
+                                        </th>
+                                        <th>:</th>
+                                        <td className="px-6 py-1">
+
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white dark:bg-gray-800">
+                                        <th scope="row" className="px-24 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Ringkasan Isi :
+                                        </th>
+                                        <td className="px-6 py-1">
+
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white border-t border-b dark:bg-gray-800">
+                                        <th scope="row" className="px-4 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Diteruskan Kepada :<br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Sekretaris <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Kabid Anggaran <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Kabid Akuntansi & Pelaporan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Kabid Pengelolaan BMD <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Bidang BEKK <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Kepala UPTB Perbendaharaan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Kepala UPTB Balai PPAD <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> PPK <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Pejabat Pengadaan B & J <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Fungsional Perencana <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Fungsional AKPD <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Kasubbag Umum <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Bendahara Penerimaan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Bendahara Pengeluaran <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Penatausahaan Pimpinan <br /><br />
+                                        </th>
+                                        <th></th>
+                                        <th scope="row" className="px-4 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Dengan Hormat Harap :<br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Tanggapan dan Saran <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Proses lebih lanjut <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Koordinasikan/Konfirmasikan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Hadiri <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Untuk Maklumi <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Diingatkan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Diarsipkan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Wakili <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Difasilitasi <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Dirapatkan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Ditelaah <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Dijadwalkan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Edarkan/Umumkan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Siapkan Bahan-Bahan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Teliti & Selesaikan <br />
+                                            <input type="checkbox" value="Sekreteris" className="mr-4" /> Dipedomani <br />
+                                        </th>
+                                    </tr>
+                                    <tr className="bg-white border dark:bg-gray-800">
+                                        <th>
+                                            Catatan:
+                                        </th>
+                                        <th></th>
+                                        <th>Paraf/Tanggal</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr className="bg-white border dark:bg-gray-800">
+                                        <th colSpan="2" scope="row" className="px-4 py-1 font-medium text-gray-800 whitespace-nowrap dark:text-white">
+                                            <textarea id="perihal" rows="5" className="block w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis disposisi" value={disposisi} onChange={(e) => setDisposisi(e.target.value)}></textarea>
+                                        </th>
+                                        <th>Kepala BPKAD/Sekertaris</th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div className="inline-flex mb-3 text-gray-500 dark:text-gray-400">
                             <button type="submit" className="flex focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">

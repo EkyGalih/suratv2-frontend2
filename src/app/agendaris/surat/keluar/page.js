@@ -25,7 +25,7 @@ export default function suratKeluar() {
 
     async function getSuratKeluar() {
         const res = await axios.get(
-            `${process.env.HOST}/agendaris/surat/keluar`
+            `${process.env.HOST}/agendaris/surat/keluar?search_query=${keyword}&page=${page}&limit=${limit}`
         );
         setSurat(res.data.result);
         setPage(res.data.page);

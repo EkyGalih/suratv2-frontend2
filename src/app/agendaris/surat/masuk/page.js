@@ -23,25 +23,12 @@ export default function SuratMasuk() {
 
     async function getSuratMasuk() {
         const res = await axios.get(
-            `${process.env.HOST}/agendaris/surat/masuk`
-        );  
+            `${process.env.HOST}/agendaris/surat/masuk?search_query=${keyword}&page=${page}&limit=${limit}`
+        );
         setSurat(res.data.result);
         setPage(res.data.page);
         setPages(res.data.totalPage);
         setRows(res.data.totalRows);
-    }
-
-    async function sendSurat(suratId) {
-        try {
-            const res = await axios.patch(
-                `${process.env.HOST}/agendaris/surat/status/${suratId}`
-            );
-            setStatus(res.data.status);
-            setMsg(res.data.msg);
-        } catch (error) {
-            setStatus(error.response.data.status);
-            setMsg(error.response.data.msg);
-        }
     }
 
     async function deleteSurat(suratId) {
@@ -77,9 +64,9 @@ export default function SuratMasuk() {
         <LayoutAgendaris>
             <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
                 <h2 className="flex title mb-5 text-2xl font-extrabold dark:text-white">
-                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                        <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
-                        <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="m9.978 13.233 9.392-6.668a1.945 1.945 0 0 0-.186-.177L11.2.65A2 2 0 0 0 8.815.638L.8 6.4a1.928 1.928 0 0 0-.207.2l9.385 6.633Z" />
+                        <path d="M11.181 14.864a2.007 2.007 0 0 1-2.382-.014L0 8.627V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.573l-8.819 6.29Z" />
                     </svg>
                     <span className="flex-1 ml-2 whitespace-nowrap">Surat Masuk</span>
                     <a href="/agendaris/surat/masuk/add" className="flex fixed top-22 right-7 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
@@ -191,7 +178,7 @@ export default function SuratMasuk() {
                                                                 : <span></span>
                                             }</td>
                                             <td className="px-6 py-4">
-                                            {item.diteruskan}
+                                                {item.diteruskan}
                                             </td>
                                             <td className="px-6 py-4 text-center inline-flex">
                                                 <a href={`/agendaris/surat/masuk/distribusi/${item.id}`} data-tooltip-target="tooltip-edit" className="inline-flex items-center focus:outline-none text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:focus:ring-blue-900">

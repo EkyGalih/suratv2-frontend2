@@ -1,28 +1,22 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import FooterAdmin from "./FooterAdmin";
 import NavbarAdmin from "./NavbarAdmin";
 import SidebarAdmin from "./SidebarAdmin";
-import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function LayoutAdmin({ children }) {
-    const [user, setUser] = useState("");
+    const router = useRouter();
 
     useEffect(() => {
-        getMe();
-    }, []);
-
-    async function getMe() {
-        try {
-            const response = await axios.get(`${process.env.HOST}/me/${sessionStorage.getItem('userId')}`);
-            setUser(response.data);;
-        } catch (error) {
-            if (error.response) {
-                console.log(error.response);
-            }
+        const level = sessionStorage.getItem('level');
+        if (level === null) {
+            router.push('/');
+        } else if (level !== 'admin') {
+            router.back();
         }
-    }
+    }, []);
 
     return (
         <>
